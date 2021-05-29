@@ -6,6 +6,8 @@ import { AppBar, Typography, Box, Button, Container, IconButton, Toolbar } from 
 import { ThemeProvider } from '@material-ui/core/styles';
 import theme from '../../src/theme';
 import {makeStyles} from '@material-ui/core';
+import HomeIcon from '@material-ui/icons/Home'
+import { Link } from 'gatsby'
 
 const useStyles = makeStyles((theme) => (
   {
@@ -42,7 +44,12 @@ export default function Main(props) {
         <AppBar>
           <Container>
             <Toolbar>
-              {/*<MenuIcon />*/}
+              <Link
+                to={`/`}
+                state={{ fromFeed: true }}
+              >
+                <HomeIcon />
+              </Link>
               <IconButton className={classes.menuButton} edge={'start'} color={'inherit'} aria-label={'menu'}></IconButton>
               <Typography className={classes.title} variant={"h6"}>test</Typography>
               <Box mr={3}>
