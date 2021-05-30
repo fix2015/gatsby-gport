@@ -3,7 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Tooltip from '@material-ui/core/Tooltip'
 
-import {generateOptionsIcons} from '../service/options';
+import {generateOptionsIcons} from '../services/options';
 
 const useStyles = makeStyles((theme) => ({
   root: {

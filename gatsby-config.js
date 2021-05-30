@@ -1,4 +1,5 @@
 require('dotenv').config()
+const path = require('path');
 
 module.exports = {
   siteMetadata: {
@@ -48,6 +49,7 @@ module.exports = {
     // },
     `gatsby-plugin-gatsby-cloud`,
     `gatsby-plugin-sass`,
+    `gatsby-plugin-use-query-params`,
     {
       resolve: `gatsby-plugin-material-ui`,
       options: {
@@ -60,7 +62,20 @@ module.exports = {
       resolve: `gatsby-plugin-layout`,
       options: {
         component: require.resolve(`${__dirname}/src/layout/main`),
-      },
+      }
+    },
+    {
+      resolve: `gatsby-plugin-alias-imports`,
+      options: {
+        alias: {
+          "@components": path.resolve(__dirname, 'src/components'),
+          "@services": path.resolve(__dirname, 'src/services'),
+          "@images": path.resolve(__dirname, 'src/images'),
+          "@src": path.resolve(__dirname, 'src'),
+          "@utils": path.resolve(__dirname, 'src/utils'),
+        },
+        extensions: []
+      }
     }
   ],
 }
