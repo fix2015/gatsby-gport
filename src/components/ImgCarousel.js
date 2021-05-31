@@ -3,15 +3,14 @@ import React from "react"
 import Slider from "react-slick"
 import "slick-carousel/slick/slick.css"
 import "slick-carousel/slick/slick-theme.css"
-import { makeStyles } from '@material-ui/core/styles'
+import { makeStyles } from "@material-ui/core/styles"
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-  },
+const useStyles = makeStyles(theme => ({
+  root: {},
   size: {
-    width: 'auto !important',
-    maxHeight: '300px',
-  }
+    width: "auto !important",
+    maxHeight: "300px",
+  },
 }))
 
 const settings = {
@@ -19,10 +18,10 @@ const settings = {
   infinite: true,
   speed: 500,
   slidesToShow: 1,
-  slidesToScroll: 1
+  slidesToScroll: 1,
 }
 
-export default function ImgCarousel ({imgs=[]}) {
+export default function ImgCarousel({ imgs = [] }) {
   const classes = useStyles()
 
   return (
@@ -33,4 +32,3 @@ export default function ImgCarousel ({imgs=[]}) {
     </Slider>
   )
 }
-

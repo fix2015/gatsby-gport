@@ -1,33 +1,49 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { Helmet } from 'react-helmet';
-import CssBaseline from '@material-ui/core/CssBaseline';
+import React, { useState } from 'react'
+import PropTypes from 'prop-types'
+import { Helmet } from 'react-helmet'
+import CssBaseline from '@material-ui/core/CssBaseline'
 import { AppBar, Typography, Box, Button, Container, IconButton, Toolbar } from '@material-ui/core'
-import { ThemeProvider } from '@material-ui/core/styles';
-import theme from '../../src/theme';
-import {makeStyles} from '@material-ui/core';
+import { ThemeProvider } from '@material-ui/core/styles'
+import theme from '../../src/theme'
+import { makeStyles } from '@material-ui/core'
+import MenuIcon from '@material-ui/icons/Menu'
 import HomeIcon from '@material-ui/icons/Home'
 import { Link } from 'gatsby'
+import { QueryParamProvider } from 'use-query-params'
+
+import Menu from './Menu'
 
 const useStyles = makeStyles((theme) => (
   {
     root: {
       flexGrow: 1,
     },
-    container:{
+    container: {
       marginTop: theme.spacing(12),
     },
     menuButton: {
       marginRight: theme.spacing(1),
     },
     title: {
-      flexGrow: 1
-    }
+      flexGrow: 1,
+    },
+    main: {
+      color: '#ffffff'
+    },
   }
 ))
 
 export default function Main(props) {
-  const classes = useStyles();
+  const classes = useStyles()
+  const [open, setOpen] = useState(false)
+
+  const onOpenMenu = () => {
+    setOpen(!open)
+  }
+
+  const onToogleMenu = (open) => {
+    setOpen(open)
+  }
 
   return (
     <>
@@ -44,29 +60,33 @@ export default function Main(props) {
         <AppBar>
           <Container>
             <Toolbar>
-              <Link
-                to={`/`}
-                state={{ fromFeed: true }}
-              >
-                <HomeIcon />
-              </Link>
-              <IconButton className={classes.menuButton} edge={'start'} color={'inherit'} aria-label={'menu'}></IconButton>
-              <Typography className={classes.title} variant={"h6"}>test</Typography>
-              <Box mr={3}>
-                <Button color={"inherit"} variant={"outlined"}>Log in</Button>
+              <IconButton onClick={onOpenMenu} edge="start" className={classes.menuButton} color="inherit"
+                          aria-label="menu">
+                <MenuIcon />
+              </IconButton>
+              <Box className={classes.title}>
+                <Link to={'/'} state={{ fromFeed: false }}>
+                  <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
+                    <HomeIcon className={classes.main}/>
+                  </IconButton>
+                </Link>
               </Box>
-              <Button color={"secondary"} variant={"contained"}>Sign up</Button>
+              <Box mr={1}>
+                <Button color={'inherit'} variant={'outlined'}>Log in</Button>
+              </Box>
+              <Button color={'secondary'} variant={'contained'}>Sign up</Button>
             </Toolbar>
           </Container>
         </AppBar>
         <Container className={classes.container}>
           {props.children}
         </Container>
+        <Menu open={open} onToogleMenu={onToogleMenu} />
       </ThemeProvider>
     </>
-  );
+  )
 }
 
 Main.propTypes = {
   children: PropTypes.node,
-};
+}

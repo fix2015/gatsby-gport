@@ -8,7 +8,7 @@ const config = {
   storageBucket: "gport-c1f90.appspot.com",
   messagingSenderId: "116451773110",
   appId: "1:116451773110:web:1543812a8b6f2bf6d43417",
-  measurementId: "G-EB9NM5R270"
+  measurementId: "G-EB9NM5R270",
 }
 
 if (!firebase.apps.length) {
