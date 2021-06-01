@@ -1,6 +1,6 @@
 import React from "react"
 import PlaceList from "@components/place-list"
-import { Divider, Grid } from '@material-ui/core'
+import { Grid } from '@material-ui/core'
 import Typography from '@material-ui/core/Typography'
 
 const items = []

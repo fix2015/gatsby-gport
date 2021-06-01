@@ -6,6 +6,8 @@ import GridListTileBar from '@material-ui/core/GridListTileBar';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
 
+import {getFileNameFromUrl} from '@services/string';
+
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
@@ -40,7 +42,7 @@ export default function ImageGridList({imgs, onDeleteImg}) {
                 title: classes.title,
               }}
               actionIcon={
-                <IconButton onClick={onDeleteImg}>
+                <IconButton onClick={() => onDeleteImg(getFileNameFromUrl(img))}>
                   <DeleteIcon color={'error'}/>
                 </IconButton>
               }

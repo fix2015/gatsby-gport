@@ -2,14 +2,13 @@ import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { Helmet } from 'react-helmet'
 import CssBaseline from '@material-ui/core/CssBaseline'
-import { AppBar, Typography, Box, Button, Container, IconButton, Toolbar } from '@material-ui/core'
+import { AppBar, Box, Button, Container, IconButton, Toolbar } from '@material-ui/core'
 import { ThemeProvider } from '@material-ui/core/styles'
 import theme from '../../src/theme'
 import { makeStyles } from '@material-ui/core'
 import MenuIcon from '@material-ui/icons/Menu'
 import HomeIcon from '@material-ui/icons/Home'
 import { Link } from 'gatsby'
-import { QueryParamProvider } from 'use-query-params'
 
 import Menu from './Menu'
 
@@ -28,7 +27,8 @@ const useStyles = makeStyles((theme) => (
       flexGrow: 1,
     },
     main: {
-      color: '#ffffff'
+      color: '#ffffff',
+      textDecoration: 'none'
     },
   }
 ))
@@ -36,6 +36,7 @@ const useStyles = makeStyles((theme) => (
 export default function Main(props) {
   const classes = useStyles()
   const [open, setOpen] = useState(false)
+
 
   const onOpenMenu = () => {
     setOpen(!open)
@@ -55,7 +56,6 @@ export default function Main(props) {
         />
       </Helmet>
       <ThemeProvider theme={theme}>
-        {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
         <CssBaseline />
         <AppBar>
           <Container>
@@ -72,9 +72,11 @@ export default function Main(props) {
                 </Link>
               </Box>
               <Box mr={1}>
-                <Button color={'inherit'} variant={'outlined'}>Log in</Button>
+                <Link to={'/place-edit/new'} className={classes.main} state={{ fromFeed: false }}>
+                  <Button color={'inherit'} variant={'outlined'}>Добавить жилье</Button>
+                </Link>
               </Box>
-              <Button color={'secondary'} variant={'contained'}>Sign up</Button>
+              <Button color={'secondary'} variant={'contained'}>Авторизироваться</Button>
             </Toolbar>
           </Container>
         </AppBar>

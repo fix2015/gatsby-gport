@@ -1,5 +1,7 @@
 import React from "react"
 import PlaceList from "../components/place-list"
+import {get} from '@api/place'
+
 // import { getPlaces } from '../utils/places'
 // import { useEffect } from 'react'
 // useEffect(() => {
@@ -15,9 +17,11 @@ for (var i = 0; i < 100; i++) {
 }
 
 export default function Index() {
+  const place = get();
+
   return (
     <>
-      <PlaceList items={items} />
+      <PlaceList items={place} />
     </>
   )
 }
