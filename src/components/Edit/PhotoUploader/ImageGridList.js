@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function ImageGridList({imgs, onDeleteImg}) {
+export default function ImageGridList({imgs=[], onDeleteImg}) {
   const classes = useStyles();
 
   return (

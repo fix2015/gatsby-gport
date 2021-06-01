@@ -11,9 +11,10 @@ import PersonPinIcon from "@material-ui/icons/PersonPin"
 import TabPanel from "@components/TabPanel"
 import ShortDescription from "@components/View/ShortDescription"
 import ImgCarousel from "@components/ImgCarousel"
-import GoogleMap from "@components/GoogleMap"
+import GoogleMap from "@components/View/GoogleMap"
 import { MODEL } from "@src/Constants"
 import { getByAlias } from "@api/place"
+import Description  from '@components/View/Description'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -35,7 +36,7 @@ const useStyles = makeStyles(theme => ({
 export default function Place({alias}) {
   const classes = useStyles()
   const [place] = useState(alias ? getByAlias(alias) : MODEL)
-  const { description, imgs } = place
+  const { name, position, description, imgs } = place;
   const [value, setValue] = React.useState(0)
 
   const handleChange = (event, newValue) => {
@@ -70,10 +71,12 @@ export default function Place({alias}) {
               <Tab icon={<PersonPinIcon />} label="Отзывы" />
             </Tabs>
             <TabPanel value={value} index={0}>
-              {description}
+              <Description
+                description={description}
+              />
             </TabPanel>
             <TabPanel value={value} index={1}>
-              <GoogleMap />
+              <GoogleMap name={name} position={position} />
             </TabPanel>
             <TabPanel value={value} index={2}>
               Page Three

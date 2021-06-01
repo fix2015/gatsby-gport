@@ -75,8 +75,8 @@ export default function Index({
               </Select>
             </ListItem>
 
-            {SHORT_INFO.map(({name, type,  icon, label}) => (
-              <ListItem>
+            {SHORT_INFO.map(({name, type,  icon, label}, ind) => (
+              <ListItem key={ind}>
                 <ListItemIcon>
                   {icon}
                 </ListItemIcon>

@@ -46,7 +46,7 @@ const useStyles = makeStyles(theme => ({
 
 export default function Place({alias}) {
   const classes = useStyles()
-  const [place, setPlace] = useState(alias ? getByAlias(alias) : MODEL)
+  const [place, setPlace] = useState(alias ? getByAlias(alias) || MODEL : MODEL)
   const { description, id, position, name, imgs } = place
   const [activeTab] = useQueryParam("tab", StringParam)
   const defaultTab = TABS.includes(activeTab) ? activeTab : TABS[0]
@@ -81,11 +81,11 @@ export default function Place({alias}) {
     setPlace({ ...place, imgs: [...place.imgs, ...imgs] })
   }
 
-  const onDeleteImg = async (img) => {
+  const onDeleteImg = async (fileName) => {
     try{
-      await deleteImg(img);
+      const data = await deleteImg(fileName, id);
 
-      setPlace({ ...place, imgs: [...place.imgs.filter((placeImg) => placeImg!== img)] })
+      setPlace({ ...place, imgs: [...place.imgs.filter((placeImg) => placeImg.search(fileName) === -1)] })
     }catch (e){
       console.error(e);
     }
@@ -167,7 +167,7 @@ export default function Place({alias}) {
       <Grid container spacing={3}>
         <Grid item lg={7} md={7} xs={12}>
           <Paper className={classes.slider}>
-            <PhotoUploader id={id} imgs={imgs} onDeleteImg={onDeleteImg} onAddImg={onAddImg} />
+            <PhotoUploader {...place} onDeleteImg={onDeleteImg} onAddImg={onAddImg} />
           </Paper>
         </Grid>
         <Grid item lg={5} md={5} xs={12}>

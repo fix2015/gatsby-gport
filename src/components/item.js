@@ -12,14 +12,24 @@ import CardHeader from '@material-ui/core/CardHeader'
 import { useQueryParam, StringParam } from "use-query-params"
 import { Link, navigate } from 'gatsby'
 
-const useStyles = makeStyles({
+import ListOfOptions from "@components/ListOfOptions"
+import theme from '../theme'
+
+const useStyles = makeStyles((theme) => ({
   root: {
     maxWidth: 345,
+    width: '100%'
   },
   media: {
     height: 140,
   },
-})
+  underline: {
+    textDecoration: 'none'
+  },
+  name: {
+    color: theme.palette.action.active
+  }
+}))
 
 export default function Item({ item, ind }) {
   const classes = useStyles();
@@ -31,7 +41,7 @@ export default function Item({ item, ind }) {
 
   return (
     <Card className={classes.root}>
-      <Link to={`/place/${item.alias}`} state={{ fromFeed: true }}>
+      <Link to={`/place/${item.alias}`} className={classes.underline} state={{ fromFeed: true }}>
         {adminMode && <CardHeader
           action={
             <IconButton onClick={() => onEdit(item.alias)} aria-label="settings">
@@ -47,22 +57,26 @@ export default function Item({ item, ind }) {
 
         />
         <CardContent>
-          <Typography gutterBottom variant="h6" component="h2">
+          <Typography gutterBottom className={classes.name} variant="h6" component="h2">
             {item.name}
           </Typography>
           <Typography
             noWrap
             variant="body2"
             color="textSecondary"
-            component="p"
           >
-            {item.description.toString()}
+           Цена - {item.price} грн
+          </Typography>
+          <Typography
+            noWrap
+            variant="body2"
+            color="textSecondary"
+          >
+           До моря - {item.distance} м
           </Typography>
         </CardContent>
         <CardActions>
-          <Button size="small" color="primary">
-            Посмотреть
-          </Button>
+          <ListOfOptions options={item.options} />
         </CardActions>
       </Link>
     </Card>

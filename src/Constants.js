@@ -4,8 +4,11 @@ import RoomIcon from '@material-ui/icons/Room'
 import PaymentIcon from '@material-ui/icons/Payment'
 import PhoneIcon from '@material-ui/icons/Phone'
 import React from 'react'
-
-export const GOOGLE_API = "AIzaSyDBlFmip6tAQanrEpIi3JAjakmu3QY5PEI"
+import DirectionsWalkIcon from '@material-ui/icons/DirectionsWalk';
+import BathtubIcon from "@material-ui/icons/Bathtub"
+import WifiIcon from "@material-ui/icons/Wifi"
+import PoolIcon from "@material-ui/icons/Pool"
+import ChildCareIcon from "@material-ui/icons/ChildCare"
 
 export const TABS = [`description`, `map`, `reviews`]
 
@@ -14,8 +17,9 @@ export const MODEL = {
   alias: "",
   phone: "",
   price: 0,
+  distance: 0,
   address: "",
-  description: `Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.`,
+  description: ``,
   type: 0,
   position: {
     lat: 0,
@@ -77,29 +81,74 @@ export const SHORT_INFO = [
     icon:  <HomeIcon />,
     name: 'name',
     type: 'string',
+    search: true,
   },
   {
     label: 'Alias',
     icon:  <HttpIcon />,
     name: 'alias',
     type: 'string',
+    search: false,
+  },
+  {
+    label: 'До моря (м)',
+    icon:  <DirectionsWalkIcon />,
+    name: 'distance',
+    type: 'number',
+    search: true,
   },
   {
     label: 'Адрес',
     icon:  <RoomIcon />,
     name: 'address',
     type: 'string',
+    search: true,
   },
   {
     label: 'Цена',
     icon:  <PaymentIcon />,
     name: 'price',
     type: 'number',
+    search: true,
   },
   {
     label: 'Телефон',
     icon:  <PhoneIcon />,
     name: 'phone',
     type: 'number',
+    search: true,
+  },
+]
+
+export const GOOGLE_API = "AIzaSyDBlFmip6tAQanrEpIi3JAjakmu3QY5PEI"
+
+export const DEFAULT_MAP_PROPS = {
+  center: {
+    lat: 46.118849086724424,
+    lng: 32.28825728930291,
+  },
+  zoom: 15,
+}
+
+export const optionsIcons = [
+  {
+    label: "Бассейн",
+    name: "pool",
+    icon: <PoolIcon />,
+  },
+  {
+    label: "Wifi",
+    name: "wifi",
+    icon: <WifiIcon />,
+  },
+  {
+    label: "Детская площадка",
+    name: "playground",
+    icon: <ChildCareIcon />,
+  },
+  {
+    label: "Душ в номере",
+    name: "shower",
+    icon: <BathtubIcon />,
   },
 ]

@@ -1,19 +1,64 @@
 import {randormHash} from '@services/string'
+import {TYPE} from '@src/Constants'
 
 export const get = () => {
-  const place = localStorage.getItem('places');
+  const places = localStorage.getItem('places');
 
-  if(!place) return [];
+  if(!places) return [];
 
-  return JSON.parse(place);
+  return JSON.parse(places);
 }
 
 export const getByAlias = (alias) => {
-  const place = localStorage.getItem('places');
+  const places = localStorage.getItem('places');
 
-  if(!place) return {};
+  if(!places) return null;
 
-  return JSON.parse(place).filter((data) => data.alias === alias)[0];
+  return JSON.parse(places).filter((data) => data.alias === alias)[0];
+}
+
+export const getListByType = (type) => {
+  const places = localStorage.getItem('places');
+
+  if(!places) return null;
+
+  const res = JSON.parse(places);
+  const obj = TYPE.filter((data) => data.alias === type)[0];
+  if(!obj) return null;
+
+  return res.filter((data) => data.type === obj.id);
+}
+
+export const getListByName = (name) => {
+  const places = localStorage.getItem('places');
+
+  if(!places) return null;
+
+  const res = JSON.parse(places);
+
+  return res.filter((data) => data.name.toLowerCase().search(name.toLowerCase()) !== -1);
+}
+
+export const getListBySearch = (obj) => {
+  const places = localStorage.getItem('places');
+
+  if(!places) return null;
+
+  let res = JSON.parse(places);
+
+  for (var prop in obj) {
+    if(typeof obj[prop] === 'string'){
+      if(obj[prop].length){
+        res = res.filter((data) => data[prop].toLowerCase().search(obj[prop].toLowerCase()) !== -1);
+      }
+    }else if(typeof obj[prop] === 'boolean'){
+      if(obj[prop]){
+        res = res.filter((place) => place.options.filter(({ name }) => name === prop).length);
+      }
+    }
+  }
+
+  return res;
 }
 
 export const put = (place) => {

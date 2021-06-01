@@ -6,7 +6,7 @@ import ListItemIcon from "@material-ui/core/ListItemIcon"
 import ListSubheader from "@material-ui/core/ListSubheader"
 import Grid from "@material-ui/core/Grid"
 
-import ListOfOptions from "@components/View/ShortDescription/ListOfOptions"
+import ListOfOptions from "@components/ListOfOptions"
 import {SHORT_INFO} from '@src/Constants'
 import ListItemText from '@material-ui/core/ListItemText'
 

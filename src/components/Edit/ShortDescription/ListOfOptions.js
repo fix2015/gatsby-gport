@@ -4,7 +4,8 @@ import Switch from "@material-ui/core/Switch"
 import FormGroup from "@material-ui/core/FormGroup"
 import FormControlLabel from "@material-ui/core/FormControlLabel"
 
-import { generateEditOptionsIcons, optionsIcons } from "@services/options"
+import { generateEditOptionsIcons } from "@services/options"
+import { optionsIcons } from "@src/Constants"
 
 export default function ShortDescription({ options, onCallback }) {
   const [optionSaved, setOptionSaved] = useState(options)
@@ -15,13 +16,13 @@ export default function ShortDescription({ options, onCallback }) {
   const handleChange = event => {
     if (!event.target.checked) {
       setOptionSaved(
-        optionSaved.filter(option => option.icon !== event.target.name)
+        optionSaved.filter(option => option.name !== event.target.name)
       )
     } else {
-      const { name, icon } = optionsIcons.filter(
-        optionIcon => optionIcon.icon === event.target.name
+      const { name, label } = optionsIcons.filter(
+        optionIcon => optionIcon.name === event.target.name
       )[0]
-      setOptionSaved(optionSaved.concat({ name, icon }))
+      setOptionSaved(optionSaved.concat({ name, label }))
     }
   }
 
@@ -32,18 +33,18 @@ export default function ShortDescription({ options, onCallback }) {
 
   return (
     <FormGroup row>
-      {optionParams.map(({ name, icon, Component, value }, ind) => (
+      {optionParams.map(({ name, icon, label, value }, ind) => (
         <FormControlLabel
           key={ind}
           control={
             <Switch
-              name={icon}
+              name={name}
               onChange={handleChange}
               checked={value}
               inputProps={{ "aria-label": "primary checkbox" }}
             />
           }
-          label={<Component />}
+          label={icon}
           labelPlacement="start"
         />
       ))}
