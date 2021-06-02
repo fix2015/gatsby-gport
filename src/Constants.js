@@ -1,10 +1,10 @@
-import HomeIcon from '@material-ui/icons/Home'
-import HttpIcon from '@material-ui/icons/Http'
-import RoomIcon from '@material-ui/icons/Room'
-import PaymentIcon from '@material-ui/icons/Payment'
-import PhoneIcon from '@material-ui/icons/Phone'
-import React from 'react'
-import DirectionsWalkIcon from '@material-ui/icons/DirectionsWalk';
+import HomeIcon from "@material-ui/icons/Home"
+import HttpIcon from "@material-ui/icons/Http"
+import RoomIcon from "@material-ui/icons/Room"
+import PaymentIcon from "@material-ui/icons/Payment"
+import PhoneIcon from "@material-ui/icons/Phone"
+import React from "react"
+import DirectionsWalkIcon from "@material-ui/icons/DirectionsWalk"
 import BathtubIcon from "@material-ui/icons/Bathtub"
 import WifiIcon from "@material-ui/icons/Wifi"
 import PoolIcon from "@material-ui/icons/Pool"
@@ -25,97 +25,94 @@ export const MODEL = {
     lat: 0,
     lng: 0,
   },
-  imgs: [
-  ],
-  options: [
-
-  ],
+  imgs: [],
+  options: [],
 }
 
 export const TYPE = [
   {
-    name : 'Частный сектор',
+    name: "Частный сектор",
     id: 0,
-    alias: 'private_sector'
+    alias: "private_sector",
   },
   {
-    name : 'Пансионаты',
+    name: "Пансионаты",
     id: 1,
-    alias: 'pansionat'
+    alias: "pansionat",
   },
   {
-    name : 'Отель',
+    name: "Отель",
     id: 2,
-    alias: 'otel'
+    alias: "otel",
   },
   {
-    name : 'Гостиницы',
+    name: "Гостиницы",
     id: 3,
-    alias: 'hotel'
+    alias: "hotel",
   },
   {
-    name : 'Санатории',
+    name: "Санатории",
     id: 4,
-    alias: 'sanatoriums'
+    alias: "sanatoriums",
   },
   {
-    name : 'База отдыха',
+    name: "База отдыха",
     id: 5,
-    alias: 'recreation_center'
+    alias: "recreation_center",
   },
   {
-    name : 'Квартиры',
+    name: "Квартиры",
     id: 6,
-    alias: 'flat'
+    alias: "flat",
   },
   {
-    name : 'Дачи',
+    name: "Дачи",
     id: 7,
-    alias: 'cottages'
+    alias: "cottages",
   },
 ]
 
 export const SHORT_INFO = [
   {
-    label: 'Название',
-    icon:  <HomeIcon />,
-    name: 'name',
-    type: 'string',
+    label: "Название",
+    icon: <HomeIcon />,
+    name: "name",
+    type: "string",
     search: true,
   },
   {
-    label: 'Alias',
-    icon:  <HttpIcon />,
-    name: 'alias',
-    type: 'string',
+    label: "Alias",
+    icon: <HttpIcon />,
+    name: "alias",
+    type: "string",
     search: false,
   },
   {
-    label: 'До моря (м)',
-    icon:  <DirectionsWalkIcon />,
-    name: 'distance',
-    type: 'number',
+    label: "До моря (м)",
+    icon: <DirectionsWalkIcon />,
+    name: "distance",
+    type: "number",
     search: true,
   },
   {
-    label: 'Адрес',
-    icon:  <RoomIcon />,
-    name: 'address',
-    type: 'string',
+    label: "Адрес",
+    icon: <RoomIcon />,
+    name: "address",
+    type: "string",
     search: true,
   },
   {
-    label: 'Цена',
-    icon:  <PaymentIcon />,
-    name: 'price',
-    type: 'number',
+    label: "Цена",
+    icon: <PaymentIcon />,
+    name: "price",
+    type: "number",
     search: true,
   },
   {
-    label: 'Телефон',
-    icon:  <PhoneIcon />,
-    name: 'phone',
-    type: 'number',
+    label: "Телефон",
+    icon: <PhoneIcon />,
+    name: "phone",
+    type: "number",
     search: true,
   },
 ]

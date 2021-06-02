@@ -14,7 +14,7 @@ import ImgCarousel from "@components/ImgCarousel"
 import GoogleMap from "@components/View/GoogleMap"
 import { MODEL } from "@src/Constants"
 import { getByAlias } from "@api/place"
-import Description  from '@components/View/Description'
+import Description from "@components/View/Description"
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -33,10 +33,10 @@ const useStyles = makeStyles(theme => ({
   },
 }))
 
-export default function Place({alias}) {
+export default function Place({ alias }) {
   const classes = useStyles()
   const [place] = useState(alias ? getByAlias(alias) : MODEL)
-  const { name, position, description, imgs } = place;
+  const { name, position, description, imgs } = place
   const [value, setValue] = React.useState(0)
 
   const handleChange = (event, newValue) => {
@@ -71,9 +71,7 @@ export default function Place({alias}) {
               <Tab icon={<PersonPinIcon />} label="Отзывы" />
             </Tabs>
             <TabPanel value={value} index={0}>
-              <Description
-                description={description}
-              />
+              <Description description={description} />
             </TabPanel>
             <TabPanel value={value} index={1}>
               <GoogleMap name={name} position={position} />

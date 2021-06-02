@@ -28,7 +28,7 @@ export default function ShortDescription({ options, onCallback }) {
 
   useEffect(() => {
     setOptionParam(generateEditOptionsIcons(optionSaved))
-    onCallback({options: optionSaved})
+    onCallback({ options: optionSaved })
   }, [optionSaved])
 
   return (

@@ -1,4 +1,4 @@
-import React, { Component, useEffect, useState } from 'react'
+import React, { Component, useEffect, useState } from "react"
 import GoogleMapReact from "google-map-react"
 import Box from "@material-ui/core/Box"
 import { GOOGLE_API, DEFAULT_MAP_PROPS } from "@src/Constants"
@@ -12,7 +12,7 @@ export default function Index({ name, position, onCallback }) {
   }
 
   useEffect(() => {
-    onCallback(markerPosition);
+    onCallback(markerPosition)
   }, [markerPosition])
 
   return (
@@ -27,7 +27,7 @@ export default function Index({ name, position, onCallback }) {
           <Marker
             lat={markerPosition.lat}
             lng={markerPosition.lng}
-            text={name || 'жилье'}
+            text={name || "жилье"}
           />
         )}
       </GoogleMapReact>

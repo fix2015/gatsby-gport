@@ -8,6 +8,18 @@ module.exports = {
     author: `@gatsbyjs`,
   },
   plugins: [
+    // {
+    //   resolve: `@robinmetral/gatsby-source-s3`,
+    //   options: {
+    //     aws: {
+    //       accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+    //       secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+    //       region: process.env.AWS_REGION,
+    //     },
+    //     buckets: ["gport"],
+    //     expiration: 1,
+    //   },
+    // },
     `gatsby-plugin-react-helmet`,
     `gatsby-plugin-image`,
     {
@@ -31,22 +43,6 @@ module.exports = {
         icon: `src/images/gatsby-icon.png`, // This path is relative to the root of the site.
       },
     },
-    // {
-    //   resolve: 'gatsby-source-firebase',
-    //   options: {
-    //     credential: require("./firebase.json"),
-    //     types: [
-    //       {
-    //         type: 'Place',
-    //         collection: 'places',
-    //         map: doc => ({
-    //           name: doc.name,
-    //           price: doc.price,
-    //         }),
-    //       },
-    //     ],
-    //   },
-    // },
     `gatsby-plugin-gatsby-cloud`,
     `gatsby-plugin-sass`,
     `gatsby-plugin-use-query-params`,
