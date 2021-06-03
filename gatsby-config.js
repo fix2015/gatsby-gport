@@ -20,6 +20,24 @@ module.exports = {
     //     expiration: 1,
     //   },
     // },
+    {
+      resolve: "gatsby-plugin-firebase",
+      options: {
+        features: {
+          auth: true,
+          firestore: true,
+        },
+        credentials: {
+          apiKey: process.env.GATSBY_FIREBASE_API_KEY,
+          authDomain: process.env.GATSBY_FIREBASE_AUTH_DOMAIN,
+          // databaseURL: process.env.GATSBY_FIREBASE_DATABASE_URL,
+          projectId: process.env.GATSBY_FIREBASE_PROJECT_ID,
+          storageBucket: process.env.GATSBY_FIREBASE_STORAGE_BUCKET,
+          messagingSenderId: process.env.GATSBY_FIREBASE_MESSAGING_SENDER_ID,
+          appId: process.env.GATSBY_FIREBASE_APP_ID,
+        }
+      }
+    },
     `gatsby-plugin-react-helmet`,
     `gatsby-plugin-image`,
     {
@@ -57,7 +75,7 @@ module.exports = {
     {
       resolve: `gatsby-plugin-layout`,
       options: {
-        component: require.resolve(`${__dirname}/src/layout/main`),
+        component: require.resolve(`${__dirname}/src/layout/Main`),
       },
     },
     {
@@ -70,6 +88,8 @@ module.exports = {
           "@src": path.resolve(__dirname, "src"),
           "@utils": path.resolve(__dirname, "src/utils"),
           "@api": path.resolve(__dirname, "src/api"),
+          "@hoc": path.resolve(__dirname, "src/hoc"),
+          "@layout": path.resolve(__dirname, "src/layout"),
         },
         extensions: [],
       },

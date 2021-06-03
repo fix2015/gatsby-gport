@@ -26,7 +26,7 @@ const useStyles = makeStyles({
   },
 })
 
-export default function Menu({ anchor = "left", open, onToogleMenu }) {
+export default function Side({ anchor = "left", open, onClose }) {
   const classes = useStyles()
   const [state, setState] = React.useState({
     top: false,
@@ -47,7 +47,7 @@ export default function Menu({ anchor = "left", open, onToogleMenu }) {
       return
     }
 
-    onToogleMenu(open)
+    onClose(open)
     setState({ ...state, [anchor]: open })
   }
 

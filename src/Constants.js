@@ -12,8 +12,14 @@ import ChildCareIcon from "@material-ui/icons/ChildCare"
 
 export const TABS = [`description`, `map`, `reviews`]
 
+export const USER_MODEL = {
+  email: null,
+  uid: null
+}
+
 export const MODEL = {
   name: "",
+  uid: "",
   alias: "",
   phone: "",
   price: 0,

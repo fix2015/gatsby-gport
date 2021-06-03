@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React, { useContext, useEffect, useState } from 'react'
 import { makeStyles } from "@material-ui/core/styles"
 import Paper from "@material-ui/core/Paper"
 import Grid from "@material-ui/core/Grid"
@@ -20,6 +20,7 @@ import PhotoUploader from "@components/Edit/PhotoUploader"
 import { TABS, MODEL } from "@src/Constants"
 import { uploadImg, deleteImg } from "@services/s3"
 import { post, getByAlias, put } from "@api/place"
+import { UserContext } from '@hoc/user'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -52,6 +53,7 @@ export default function Place({ alias }) {
   const defaultTab = TABS.includes(activeTab) ? activeTab : TABS[0]
   const [value, setValue] = React.useState(defaultTab)
   const [isPlaceReady, setIsPlaceReady] = React.useState(false)
+  const userContextData = useContext(UserContext);
 
   const saveButton = {
     icon: <AddCircleIcon />,
@@ -129,7 +131,7 @@ export default function Place({ alias }) {
 
     const awsSrc = await uploadImgs(imgs, id)
     if (awsSrc.length) {
-      responce = await put(Object.assign(place, { imgs: awsSrc }))
+      responce = await put(Object.assign(place, { imgs: awsSrc, uid: userContextData.uid }))
     }
 
     return responce
