@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from 'react'
 import { makeStyles } from "@material-ui/core/styles"
 import List from "@material-ui/core/List"
 import ListItem from "@material-ui/core/ListItem"
@@ -24,10 +24,18 @@ export default function Index({
   type = "",
   name = "",
   alias = "",
+  distance = "",
+  loading = false,
 }) {
   const classes = useStyles()
 
-  const [place] = useState({ phone, address, price, type, alias, name })
+  const [place, setPlace] = useState({ phone,
+    address,
+    price,
+    type,
+    alias,
+    distance,
+    name})
 
   return (
     <>

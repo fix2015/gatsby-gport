@@ -124,6 +124,8 @@ export const SHORT_INFO = [
 ]
 
 export const GOOGLE_API = "AIzaSyDBlFmip6tAQanrEpIi3JAjakmu3QY5PEI"
+export const COLLECTION = 'places'
+export const DOC = 'place'
 
 export const DEFAULT_MAP_PROPS = {
   center: {

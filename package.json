@@ -11,6 +11,7 @@
     "@material-ui/styles": "^4.11.4",
     "@robinmetral/gatsby-source-s3": "^2.1.1",
     "buffer": "^6.0.3",
+    "debounce": "^1.2.1",
     "firebase": "^8.6.3",
     "gatsby": "^3.4.1",
     "gatsby-image": "^3.6.0",

@@ -28,18 +28,20 @@ export default function Index({
   price = "",
   type = "",
   name = "",
+  distance = "",
+  loading = false,
   alias = "",
 }) {
   const classes = useStyles()
 
-  const [place, setPlace] = useState({
-    phone,
+  const [place, setPlace] = useState({ phone,
     address,
     price,
     type,
     alias,
-    name,
-  })
+    distance,
+    name})
+
 
   const handleChange = e => {
     setPlace({ ...place, type: e.target.value })
