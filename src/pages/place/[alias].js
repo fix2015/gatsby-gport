@@ -15,12 +15,10 @@ import ShortDescription from '@components/View/ShortDescription'
 import ImgCarousel from '@components/ImgCarousel'
 import GoogleMap from '@components/View/GoogleMap'
 import { MODEL } from '@src/Constants'
-import { getByAlias } from '@api/place'
 import Description from '@components/View/Description'
 import firebase from 'gatsby-plugin-firebase'
-import { useCollection, useCollectionData } from 'react-firebase-hooks/firestore'
+import { useCollectionData } from 'react-firebase-hooks/firestore'
 import CircularProgress from '@material-ui/core/CircularProgress'
-import PlaceList from '../../components/place-list'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -52,7 +50,7 @@ export default function Place({ alias }) {
     if(!loading && !error){
       setPlace(alias ? placeData[0] : MODEL)
     }
-  }, [placeData, loading, error])
+  }, [alias, placeData, loading, error])
 
   const { name, position, description, imgs } = place;
 

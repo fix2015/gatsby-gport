@@ -19,11 +19,12 @@ import ShortDescription from '@components/Edit/ShortDescription'
 import GoogleMap from '@components/Edit/GoogleMap'
 import Description from '@components/Edit/Description'
 import PhotoUploader from '@components/Edit/PhotoUploader'
-import { TABS, COLLECTION, DOC, MODEL } from '@src/Constants'
+import { TABS, MODEL } from '@src/Constants'
 import { uploadImg, deleteImg } from '@services/s3'
 import { UserContext } from '@hoc/user'
 import Alert from '@material-ui/lab/Alert'
 import CircularProgress from '@material-ui/core/CircularProgress'
+import { createCollection, loadFormatDataOne, updateCollection, deleteCollection, isDublicate, getByAlias } from '@api/place'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -68,82 +69,17 @@ export default function Place({ alias }) {
   const [loading, setLoading] = useState(false);
   const userContextData = useContext(UserContext);
 
-  const createCollection = ({place}) => {
-    if (!userContextData.uid) navigate('/');
-
-    delete place.documentId;
-    place.uid = userContextData.uid;
-
-    return db.collection(COLLECTION).doc().set({...place, imgs: []});
-  }
-
-  const updateCollection = ({documentId, place}) => {
-    if (!userContextData.uid) navigate('/');
-
-    delete place.documentId;
-    place.uid = userContextData.uid;
-
-    return db.collection(COLLECTION).doc(documentId).set(place);
-  }
-
-  const deleteCollection = (documentId) => {
-    return db.collection(COLLECTION).doc(documentId).delete();
-  }
-
-  const getByAlias = (alias) => {
-    return db.collection(COLLECTION).where('alias', '==', alias);
-  }
-
-  const getByName = (name) => {
-    return db.collection(COLLECTION).where('name', '==', name);
-  }
-
-  const isDublicate = ({name, alias}) => {
-    return Promise.all([
-      db.collection(COLLECTION).where("alias", "==", alias).get().then(doc => {
-        return doc.empty;
-      }),
-      db.collection(COLLECTION).where("name", "==", name).get().then(doc => {
-        return doc.empty;
-      })
-    ])
-      .then( ( [ one, two ] ) => {
-        return Promise.resolve(one && two);
-      })
-      .catch((e) => {
-        console.error(e)
-      })
-  }
-
-  const ref = getByAlias(alias);
-
-  const loadFormatData = (ref) => {
-    return new Promise((res, rej) => {
-      ref.get()
-        .then(snapshot => {
-          if (snapshot.empty) {
-            setNewPlace(true);
-            rej();
-          }
-          snapshot.forEach(doc => {
-            res({
-              ...doc.data(),
-              documentId: doc.id,
-            })
-          });
-        })
-        .catch(err => {
-          setErrorMessage('Error getting documents');
-          rej();
-        });
-    })
-  }
+  const ref = getByAlias(db, alias);
 
   useEffect(async () => {
     try{
-
-      const data = await loadFormatData(ref);
-      setPlace(data);
+      const data = await loadFormatDataOne(ref);
+      if(!Object.keys(data).length){
+        setNewPlace(true);
+        setPlace(MODEL);
+      }else{
+        setPlace(data);
+      }
     }catch (e){
       setPlace(MODEL);
     }
@@ -224,10 +160,12 @@ export default function Place({ alias }) {
       const { documentId, imgs } = place;
 
       const awsSrc = await uploadImgs(imgs, documentId);
+      place.uid = userContextData.uid;
+
       if (awsSrc.length) {
-        await updateCollection({documentId, place: Object.assign(place, { imgs: awsSrc })});
+        await updateCollection(db,{documentId, place: Object.assign(place, { imgs: awsSrc })});
       } else {
-        await updateCollection({documentId, place});
+        await updateCollection(db,{documentId, place});
       }
 
       return true;
@@ -239,18 +177,21 @@ export default function Place({ alias }) {
 
   const createPlace = async () => {
     try{
-      const isValidData = await isDublicate(place);
+      const isValidData = await isDublicate(db, place);
       if(!isValidData) return Promise.reject('Dublicate alias or name');
 
       setLoading(true);
       let { imgs, alias } = place;
-      await createCollection({place: {...place, imgs: []}});
-      let responce = await loadFormatData(getByAlias((alias)));
+      if (!userContextData.uid) navigate('/');
+      place.uid = userContextData.uid;
+      await createCollection(db, {place: {...place, imgs: []}});
+      let responce = await loadFormatDataOne(getByAlias(db, alias));
       const {documentId} = responce;
 
       const awsSrc = await uploadImgs(imgs, documentId);
       if (awsSrc.length) {
-        await updateCollection({documentId, place: Object.assign(place, { imgs: awsSrc})});
+        place.uid = userContextData.uid;
+        await updateCollection(db,{documentId, place: Object.assign(place, { imgs: awsSrc})});
       }
       setLoading(false);
 
@@ -271,7 +212,7 @@ export default function Place({ alias }) {
         promises.push(onDeleteImg(img, documentId));
       })
       await Promise.all(promises)
-      const data = await deleteCollection(documentId);
+      const data = await deleteCollection(db, documentId);
       setLoading(false);
 
       return navigate('/');

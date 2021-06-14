@@ -2,7 +2,7 @@ import { optionsIcons } from "@src/Constants"
 
 export const generateOptionsIcons = options => {
   options.map(
-    ({ name }, ind) =>
+    (name, ind) =>
       (options[ind].icon = optionsIcons.filter(
         option => option.name === name
       )[0].icon)
@@ -16,7 +16,7 @@ export const generateEditOptionsIcons = options => {
     return {
       name: name,
       icon: icon,
-      value: options.map(({ name }) => name).includes(name),
+      value: options.map((name) => name).includes(name),
       label: label,
     }
   })

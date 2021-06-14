@@ -19,16 +19,10 @@ export default function Index() {
   const [places, loading, error] = useCollection(
     db.collection('places')
   );
-  // const place ={"name":"Solemar","alias":"solemar","phone":"121213213","price":"2000","distance":"50","address":"на море","description":"<p>фывафыаыва</p>","type":0,"position":{"lat":46.11810539661476,"lng":32.289845157039736},"imgs":["https://gport.s3-eu-central-1.amazonaws.com/i6l6zayax/a2uu94kjb.jpeg"],"options":[{"name":"shower","label":"Душ в номере"},{"name":"pool","label":"Бассейн"},{"name":"wifi","label":"Wifi"},{"name":"playground","label":"Детская площадка"}],"id":"i6l6zayax"}
-  //
-  //
-  // db.collection("places").doc("LA").set(place)
-  //   .then(() => {
-  //     console.log("Document successfully written!");
-  //   })
-  //   .catch((error) => {
-  //     console.error("Error writing document: ", error);
-  //   });
+
+  const getDataFromRef = (places) => {
+    return places.docs.map((place) => { return place.data()})
+  }
 
   return (
     <>
@@ -48,7 +42,7 @@ export default function Index() {
       {/*</p>*/}
       {error && <strong>Error: {JSON.stringify(error)}</strong>}
       {loading && <Grid container justify={'center'}><CircularProgress /></Grid>}
-      {places && <PlaceList items={places.docs} />}
+      {places && <PlaceList items={getDataFromRef(places)} />}
     </>
   )
 }

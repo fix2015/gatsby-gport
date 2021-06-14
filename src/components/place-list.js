@@ -22,7 +22,7 @@ export default function PlaceList({ items }) {
           sm={6}
           lg={3}
         >
-          <Item item={item.data()} />
+          <Item item={item} />
         </Grid>
       ))}
     </Grid>

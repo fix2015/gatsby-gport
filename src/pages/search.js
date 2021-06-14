@@ -1,25 +1,42 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from 'react'
 import PlaceList from "@components/place-list"
 import { Grid } from "@material-ui/core"
 import Typography from "@material-ui/core/Typography"
 import { useQueryParam, StringParam } from "use-query-params"
 
-import { getListBySearch } from "@api/place"
+import { getListBySearch, loadFormatData } from "@api/place"
 import SearchPanel from "@components/SearchPanel"
 import Box from "@material-ui/core/Box"
+import CircularProgress from '@material-ui/core/CircularProgress'
+import Alert from '@material-ui/lab/Alert'
+import firebase from 'gatsby-plugin-firebase'
 
 export default function Type() {
-  const [text] = useQueryParam("text", StringParam)
-  const [places, setPlaces] = useState([])
+  const [text] = useQueryParam("text", StringParam);
+  const [places, setPlaces] = useState([]);
+  const [errorMessage, setErrorMessage] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [db] = useState(firebase.firestore());
 
-  const onSearch = search => {
-    console.log(search)
+  const onSearch = async (search) => {
+    try{
+      console.log('onCallback', search)
+      setErrorMessage('');
+      setLoading(true);
+      const data = await getListBySearch(db, search);
+      setPlaces(data);
+    }catch (e){
+      setErrorMessage('Error getting documents');
+      setPlaces([]);
+    }
 
-    setPlaces([...getListBySearch(search)])
+    setLoading(false);
   }
 
   return (
     <Grid container justify={"center"} spacing={3}>
+      {loading && <Grid container justify={'center'}><CircularProgress /></Grid>}
+      {errorMessage && <Alert severity="error">{errorMessage}</Alert>}
       <Grid item xs={12}>
         <Box>
           <Typography style={{ textTransform: "capitalize" }} variant={"h6"}>

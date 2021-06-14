@@ -1,17 +1,40 @@
-import React from "react"
+import React, { useEffect, useState } from 'react'
 import PlaceList from "@components/place-list"
 import { Grid } from "@material-ui/core"
 import Typography from "@material-ui/core/Typography"
 
-import { getListByType } from "@api/place"
+import { getByListByType, loadFormatData } from "@api/place"
 import { TYPE } from "@src/Constants"
+import firebase from 'gatsby-plugin-firebase'
+import Alert from '@material-ui/lab/Alert'
+import CircularProgress from '@material-ui/core/CircularProgress'
 
 export default function Type({ alias }) {
-  const places = getListByType(alias) || []
-  const name = TYPE.filter(type => type.alias === alias)[0].name
+  const [db] = useState(firebase.firestore());
+  const [places, setPlaces] = useState([]);
+  const {id, name} = TYPE.filter(type => type.alias === alias)[0]
+  const ref = getByListByType(db, id);
+  const [errorMessage, setErrorMessage] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(async () => {
+    try{
+      setErrorMessage('');
+      setLoading(true);
+      const data = await loadFormatData(ref);
+      setPlaces(data);
+    }catch (e){
+      setErrorMessage('Error getting documents');
+      setPlaces([]);
+    }
+
+    setLoading(false);
+  }, [alias])
 
   return (
     <Grid container>
+      {loading && <Grid container justify={'center'}><CircularProgress /></Grid>}
+      {errorMessage && <Alert severity="error">{errorMessage}</Alert>}
       <Grid item xs={12}>
         <Typography style={{ textTransform: "capitalize" }} variant={"h6"}>
           {name}

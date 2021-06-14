@@ -8,6 +8,7 @@ import ListItemText from "@material-ui/core/ListItemText"
 import ListSubheader from "@material-ui/core/ListSubheader"
 import Switch from "@material-ui/core/Switch"
 import { optionsIcons } from "@src/Constants"
+import { useQueryParams, StringParam, BooleanParam } from 'use-query-params'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -17,20 +18,36 @@ const useStyles = makeStyles(theme => ({
     margin: "0 auto",
   },
 }))
-const defaultChecked = false
-const optionsObj = {}
-optionsIcons.forEach(({ name }) => (optionsObj[name] = defaultChecked))
+const defaultChecked = false;
+const optionsObj = {};
+const querySearch = {};
+optionsIcons.forEach(({ name }) => {
+  optionsObj[name] = defaultChecked;
+  querySearch[name] = StringParam;
+});
 
 export default function Options({ onCallback }) {
-  const classes = useStyles()
-  const [options, setOptions] = useState(optionsObj)
+  const classes = useStyles();
+  const [options, setOptions] = useState(optionsObj);
+  const [query] = useQueryParams(querySearch);
 
   const handleChange = event => {
-    setOptions({ ...options, [event.target.name]: event.target.checked })
+    setOptions({ ...options, [event.target.name]: event.target.checked });
+  }
+
+  const setStartParams = (options) => {
+    for(let option in query){
+      query[option] = query[option] === 'true' ? true : false;
+    }
+    setOptions({ ...options, ...query });
   }
 
   useEffect(() => {
-    onCallback(options)
+    setStartParams(options);
+  }, [])
+
+  useEffect(() => {
+    onCallback(options);
   }, [options])
 
   return (

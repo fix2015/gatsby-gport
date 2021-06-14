@@ -9,6 +9,7 @@ import BathtubIcon from "@material-ui/icons/Bathtub"
 import WifiIcon from "@material-ui/icons/Wifi"
 import PoolIcon from "@material-ui/icons/Pool"
 import ChildCareIcon from "@material-ui/icons/ChildCare"
+import { StringParam, NumberParam } from "use-query-params"
 
 export const TABS = [`description`, `map`, `reviews`]
 
@@ -84,6 +85,7 @@ export const SHORT_INFO = [
     icon: <HomeIcon />,
     name: "name",
     type: "string",
+    queryType: StringParam,
     search: true,
   },
   {
@@ -91,6 +93,7 @@ export const SHORT_INFO = [
     icon: <HttpIcon />,
     name: "alias",
     type: "string",
+    queryType: StringParam,
     search: false,
   },
   {
@@ -98,6 +101,7 @@ export const SHORT_INFO = [
     icon: <DirectionsWalkIcon />,
     name: "distance",
     type: "number",
+    queryType: NumberParam,
     search: true,
   },
   {
@@ -105,6 +109,7 @@ export const SHORT_INFO = [
     icon: <RoomIcon />,
     name: "address",
     type: "string",
+    queryType: StringParam,
     search: true,
   },
   {
@@ -112,6 +117,7 @@ export const SHORT_INFO = [
     icon: <PaymentIcon />,
     name: "price",
     type: "number",
+    queryType: NumberParam,
     search: true,
   },
   {
@@ -119,6 +125,7 @@ export const SHORT_INFO = [
     icon: <PhoneIcon />,
     name: "phone",
     type: "number",
+    queryType: NumberParam,
     search: true,
   },
 ]

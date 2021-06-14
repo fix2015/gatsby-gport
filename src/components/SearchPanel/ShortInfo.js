@@ -9,7 +9,7 @@ import { SHORT_INFO } from "@src/Constants"
 import TextField from "@material-ui/core/TextField"
 import List from "@material-ui/core/List"
 import ListSubheader from "@material-ui/core/ListSubheader"
-import { StringParam, useQueryParam } from "use-query-params"
+import { useQueryParams } from "use-query-params"
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -22,20 +22,30 @@ const useStyles = makeStyles(theme => ({
 }))
 
 const searchShortInfo = SHORT_INFO.filter(({ search }) => search)
-const shortInfoObj = {}
-searchShortInfo.forEach(({ name }) => {
+const shortInfoObj = {};
+const querySearch = {};
+
+searchShortInfo.forEach(({ name, queryType }) => {
   shortInfoObj[name] = ""
+  querySearch[name] = queryType;
 })
 
 export default function ShortInfo({ onCallback }) {
-  const [text] = useQueryParam("text", StringParam)
+  const classes = useStyles();
+  const [shortInfo, setShortInfo] = useState({ ...shortInfoObj});
+  const [query] = useQueryParams(querySearch);
 
-  const classes = useStyles()
-  const [shortInfo, setShortInfo] = useState({ ...shortInfoObj, name: text })
+  const setStartParams = (shortInfo) => {
+    setShortInfo({ ...shortInfo, ...query })
+  }
 
   const onSearch = e => {
     setShortInfo({ ...shortInfo, [e.target.name]: e.target.value })
   }
+
+  useEffect(() => {
+    setStartParams(shortInfo);
+  }, [])
 
   useEffect(() => {
     onCallback(shortInfo)

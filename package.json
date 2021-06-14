@@ -32,6 +32,7 @@
     "gatsby-source-firebase": "^1.0.0",
     "gatsby-transformer-sharp": "^3.4.0",
     "google-map-react": "^2.1.9",
+    "lodash.debounce": "^4.0.8",
     "material-ui-dropzone": "^3.5.0",
     "prop-types": "^15.7.2",
     "react": "^17.0.1",
