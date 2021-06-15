@@ -52,6 +52,7 @@ export default function Place({ alias }) {
 
   useEffect(async () => {
     try {
+      setErrorMessage('');
       setLoading(true);
       let place = await loadFormatDataOne(getByAlias(db, alias));
       setPlace(place);

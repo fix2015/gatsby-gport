@@ -26,20 +26,6 @@ export default function Index() {
 
   return (
     <>
-      {/*<p>*/}
-      {/*  {error && <strong>Error: {JSON.stringify(error)}</strong>}*/}
-      {/*  {loading && <span>Collection: Loading...</span>}*/}
-      {/*  {places && (*/}
-      {/*    <span>*/}
-      {/*      Collection:{' '}*/}
-      {/*      {places.docs.map((doc) => (*/}
-      {/*        <React.Fragment key={doc.id}>*/}
-      {/*          {JSON.stringify(doc.data())},{' '}*/}
-      {/*        </React.Fragment>*/}
-      {/*      ))}*/}
-      {/*    </span>*/}
-      {/*  )}*/}
-      {/*</p>*/}
       {error && <strong>Error: {JSON.stringify(error)}</strong>}
       {loading && <Grid container justify={'center'}><CircularProgress /></Grid>}
       {places && <PlaceList items={getDataFromRef(places)} />}
