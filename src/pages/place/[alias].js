@@ -19,6 +19,7 @@ import firebase from 'gatsby-plugin-firebase'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import { loadFormatDataOne, getByAlias } from '@api/place'
 import { StringParam, useQueryParam } from 'use-query-params'
+import { updateCollection } from '@api/place'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -47,7 +48,6 @@ export default function Place({ alias }) {
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState(false);
 
-
   useEffect(async () => {
     try {
       setLoading(true);
@@ -62,11 +62,26 @@ export default function Place({ alias }) {
     }
   }, [])
 
-  const { name, position, description, imgs } = place;
 
   const handleChange = (event, newValue) => {
     setValue(newValue)
   }
+
+  const onAddReview = async (reviews) => {
+    try{
+      const { documentId } = place;
+      const updatePlace = { ...place, reviews };
+      await updateCollection(db, {documentId, place: {...updatePlace}});
+      setPlace(updatePlace);
+
+      return true;
+    }catch (e){
+      setLoading(false);
+      console.error(e)
+    }
+  }
+
+  const { name, reviews, position, description, imgs } = place;
 
   return (
     <div className={classes.root}>
@@ -106,7 +121,7 @@ export default function Place({ alias }) {
                 <GoogleMap name={name} position={position} />
               </TabPanel>
               <TabPanel value={value} index={TABS[2]}>
-                <Review documentId={place.documentId}/>
+                <Review reviews={reviews} onCallback={onAddReview} documentId={place.documentId}/>
               </TabPanel>
             </Paper>
           </Grid>

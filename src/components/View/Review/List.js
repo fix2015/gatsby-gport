@@ -8,59 +8,55 @@ import Grid from '@material-ui/core/Grid'
 import Paper from '@material-ui/core/Paper'
 import Box from '@material-ui/core/Box'
 import moment from 'moment'
-import firebase from 'gatsby-plugin-firebase'
-import { updateCollection } from '../../../api/review'
-import CircularProgress from '@material-ui/core/CircularProgress'
 import Rating from '@material-ui/lab/Rating'
 import median from 'median-average'
 import { setStorage, getStorage } from '@services/localstorage'
 import Alert from '@components/Modal/Alert'
-import { Typography } from '@material-ui/core'
+import HighlightOffIcon from '@material-ui/icons/HighlightOff';
+import { makeStyles } from '@material-ui/core/styles'
 
-export default function List({ reviews }) {
-  const [db] = useState(firebase.firestore())
-  const [loading, setLoading] = useState(false)
-  const [errorMessage, setErrorMessage] = useState(false)
-  const [reviewsData, setReviewsData] = useState([])
+const useStyles = makeStyles(theme => ({
+  review: {
+    position: 'relative',
+  },
+  delete: {
+    position: 'absolute',
+    top: '20px',
+    right: '20px',
+    cursor: 'pointer'
+  },
+}))
+
+export default function List({ reviews, onCallback }) {
+  const classes = useStyles();
   const [openAlert, setOpenAlert] = useState(false);
 
   const canSetRating = (ind) => {
-    return getStorage(reviewsData[ind].documentId);
+    return getStorage(reviews[ind].id);
+  }
+
+  const onDelete = async (ind) => {
+    reviews.splice(ind, 1);
+    onCallback(reviews);
   }
 
   const setRating = async (event) => {
-    try {
-      const ind = event.target.name;
-      const newValue = event.target.value;
-      if(canSetRating(ind)) return setOpenAlert(true);
+    const ind = event.target.name;
+    const newValue = event.target.value;
+    if(canSetRating(ind)) return setOpenAlert(true);
 
-      reviewsData[ind].rating.push(newValue)
-      setErrorMessage('')
-      const review = Object.assign({}, reviewsData[ind])
-      setStorage(review.documentId, true);
-      await updateCollection(db, { documentId: review.documentId, review: review })
-      setReviewsData([...reviewsData])
-      setLoading(false)
-      return true
-    } catch (e) {
-      setLoading(false)
-      console.error(e)
-      setErrorMessage(e.toString())
-    }
+    reviews[ind].rating.push(newValue);
+    setStorage(reviews[ind].id, true);
+    onCallback(reviews);
   }
 
-  useEffect(() => {
-    setReviewsData(reviews)
-  }, [reviews])
 
   return (
     <Grid container justify={'center'} alignItems={'center'} spacing={3}>
-      {errorMessage && <strong>Error: {JSON.stringify(errorMessage)}</strong>}
-      {loading && <Grid container justify={'center'}><CircularProgress /></Grid>}
-      {reviewsData.map((data, ind) => (
-        <Grid item key={data.date} xs={12}>
+      {reviews.map((data, ind) => (
+        <Grid className={classes.review} item key={data.date} xs={12}>
           <Paper style={{ padding: '10px' }}>
-            <Box component="fieldset" mb={3} borderColor="transparent">
+            <Box component="fieldset" borderColor="transparent">
               <Rating
                 key={ind}
                 name={ind}
@@ -68,7 +64,7 @@ export default function List({ reviews }) {
                 value={median(data.rating.map((rating) => rating * 1))}
                 onChange={setRating}
               />
-              {!data.documentId && <Typography>Это комментарий будет добавлен после проверки администрацией</Typography>}
+              {/*<HighlightOffIcon onClick={() => onDelete(ind)} className={classes.delete}/>*/}
             </Box>
             <div dangerouslySetInnerHTML={{ __html: data.review }} />
             <Box style={{ textAlign: 'right', fontSize: '12px' }}>{moment(data.date).format('DD-MM-yyyy')}</Box>
