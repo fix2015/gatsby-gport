@@ -16,12 +16,12 @@ import Review from '@components/View/Review'
 import { MODEL, TABS } from '@src/Constants'
 import Description from '@components/View/Description'
 import firebase from 'gatsby-plugin-firebase'
-import CircularProgress from '@material-ui/core/CircularProgress'
 import { loadFormatDataOne, getByAlias } from '@api/place'
 import { StringParam, useQueryParam } from 'use-query-params'
 import { updateCollection } from '@api/place'
 import { LoadingContext } from '@hoc/loading'
 import { ErrorMessageContext } from '@hoc/errorMessage'
+import Tags  from '@components/Tags'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -84,7 +84,7 @@ export default function Place({ alias }) {
     }
   }
 
-  const { name, reviews, position, description, imgs } = place;
+  const { name, reviews, options, position, description, imgs } = place;
 
   return (
     <div className={classes.root}>
@@ -94,6 +94,7 @@ export default function Place({ alias }) {
           <Grid item lg={7} md={7} xs={12}>
             <Paper className={classes.slider}>
               <ImgCarousel imgs={imgs} />
+              <Tags options={options}/>
             </Paper>
           </Grid>
           <Grid item lg={5} md={5} xs={12}>
