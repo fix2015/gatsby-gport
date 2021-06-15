@@ -15,12 +15,11 @@ export default function Index({ documentId, onCallback, reviews }) {
   const onAddReviews = (reviews) => {
     onCallback([...reviews]);
   }
-  console.log('reviews', reviews)
 
   return (
     <Grid container justify={'center'} alignItems={'center'} spacing={3}>
       <Grid item xs={12}>
-        <Form  documentId={documentId} onCallback={onAddReview}/>
+        <Form  onCallback={onAddReview}/>
       </Grid>
       <Grid item xs={12}>
         {reviews.length &&  <List documentId={documentId} onCallback={onAddReviews} reviews={reviews}/>}

@@ -31,24 +31,24 @@ export default function List({ reviews, onCallback }) {
   const classes = useStyles();
   const [openAlert, setOpenAlert] = useState(false);
 
-  const canSetRating = (ind) => {
-    return getStorage(reviews[ind].id);
-  }
+  // const canSetRating = (ind) => {
+  //   return getStorage(reviews[ind].id);
+  // }
 
   const onDelete = async (ind) => {
     reviews.splice(ind, 1);
     onCallback(reviews);
   }
 
-  const setRating = async (event) => {
-    const ind = event.target.name;
-    const newValue = event.target.value;
-    if(canSetRating(ind)) return setOpenAlert(true);
-
-    reviews[ind].rating.push(newValue);
-    setStorage(reviews[ind].id, true);
-    onCallback(reviews);
-  }
+  // const setRating = async (event) => {
+  //   const ind = event.target.name;
+  //   const newValue = event.target.value;
+  //   if(canSetRating(ind)) return setOpenAlert(true);
+  //
+  //   reviews[ind].rating.push(newValue);
+  //   setStorage(reviews[ind].id, true);
+  //   onCallback(reviews);
+  // }
 
 
   return (
@@ -59,10 +59,8 @@ export default function List({ reviews, onCallback }) {
             <Box component="fieldset" borderColor="transparent">
               <Rating
                 key={ind}
-                name={ind}
-                id={ind}
-                value={median(data.rating.map((rating) => rating * 1))}
-                onChange={setRating}
+                name={'rating'}
+                value={data.rating}
               />
               {/*<HighlightOffIcon onClick={() => onDelete(ind)} className={classes.delete}/>*/}
             </Box>
