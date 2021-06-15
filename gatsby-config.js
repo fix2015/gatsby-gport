@@ -90,6 +90,7 @@ module.exports = {
           "@api": path.resolve(__dirname, "src/api"),
           "@hoc": path.resolve(__dirname, "src/hoc"),
           "@layout": path.resolve(__dirname, "src/layout"),
+          "@styles": path.resolve(__dirname, "src/styles"),
         },
         extensions: [],
       },

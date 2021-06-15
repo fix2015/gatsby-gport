@@ -7,18 +7,18 @@ import Tab from '@material-ui/core/Tab'
 import DescriptionIcon from '@material-ui/icons/Description'
 import MapIcon from '@material-ui/icons/Map'
 import PersonPinIcon from '@material-ui/icons/PersonPin'
-// import { useCollection } from 'react-firebase-hooks/firestore';
-// import firebase from 'gatsby-plugin-firebase'
 
 import TabPanel from '@components/TabPanel'
 import ShortDescription from '@components/View/ShortDescription'
 import ImgCarousel from '@components/ImgCarousel'
 import GoogleMap from '@components/View/GoogleMap'
-import { MODEL } from '@src/Constants'
+import Review from '@components/View/Review'
+import { MODEL, TABS } from '@src/Constants'
 import Description from '@components/View/Description'
 import firebase from 'gatsby-plugin-firebase'
-import { useCollectionData } from 'react-firebase-hooks/firestore'
 import CircularProgress from '@material-ui/core/CircularProgress'
+import { loadFormatDataOne, getByAlias } from '@api/place'
+import { StringParam, useQueryParam } from 'use-query-params'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -38,19 +38,29 @@ const useStyles = makeStyles(theme => ({
 }))
 
 export default function Place({ alias }) {
-  const classes = useStyles()
-  const [value, setValue] = React.useState(0)
-  const [db] = useState(firebase.firestore())
-  const [placeData, loading, error] = useCollectionData(
-    db.collection('places').where('alias', '==', alias),
-  )
-  const [place, setPlace] = useState({})
+  const classes = useStyles();
+  const [activeTab] = useQueryParam('tab', StringParam);
+  const defaultTab = TABS.includes(activeTab) ? activeTab : TABS[0];
+  const [value, setValue] = React.useState(defaultTab);
+  const [db] = useState(firebase.firestore());
+  const [place, setPlace] = useState({});
+  const [loading, setLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState(false);
 
-  useEffect(() => {
-    if(!loading && !error){
-      setPlace(alias ? placeData[0] : MODEL)
+
+  useEffect(async () => {
+    try {
+      setLoading(true);
+      let place = await loadFormatDataOne(getByAlias(db, alias));
+      setPlace(place);
+      console.log(place)
+      setLoading(false);
+    }catch (e){
+      setErrorMessage(e);
+      setLoading(false);
+      setPlace( MODEL);
     }
-  }, [alias, placeData, loading, error])
+  }, [])
 
   const { name, position, description, imgs } = place;
 
@@ -58,13 +68,11 @@ export default function Place({ alias }) {
     setValue(newValue)
   }
 
-  console.log(place)
-
   return (
     <div className={classes.root}>
-      {error && <strong>Error: {JSON.stringify(error)}</strong>}
+      {errorMessage && <strong>Error: {JSON.stringify(errorMessage)}</strong>}
       {loading && <Grid container justify={'center'}><CircularProgress /></Grid>}
-      {place &&
+      {Object.keys(place).length &&
       (
         <Grid container spacing={3}>
           <Grid item lg={7} md={7} xs={12}>
@@ -87,18 +95,18 @@ export default function Place({ alias }) {
                 textColor="secondary"
                 aria-label="icon label tabs example"
               >
-                <Tab icon={<DescriptionIcon />} label="Описания" />
-                <Tab icon={<MapIcon />} label="Карта" />
-                <Tab icon={<PersonPinIcon />} label="Отзывы" />
+                <Tab value={`description`} icon={<DescriptionIcon />} label="Описания" />
+                <Tab value={`map`} icon={<MapIcon />} label="Карта" />
+                <Tab value={`reviews`} icon={<PersonPinIcon />} label="Отзывы" />
               </Tabs>
-              <TabPanel value={value} index={0}>
+              <TabPanel value={value} index={TABS[0]}>
                 <Description description={description} />
               </TabPanel>
-              <TabPanel value={value} index={1}>
+              <TabPanel value={value} index={TABS[1]}>
                 <GoogleMap name={name} position={position} />
               </TabPanel>
-              <TabPanel value={value} index={2}>
-                Page Three
+              <TabPanel value={value} index={TABS[2]}>
+                <Review documentId={place.documentId}/>
               </TabPanel>
             </Paper>
           </Grid>

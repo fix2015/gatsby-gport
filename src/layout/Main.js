@@ -180,7 +180,7 @@ export default function Main(props) {
               </div>
               <Box mr={1}>
                 <Link
-                  to={`/search?text=${search}`}
+                  to={`/search?name=${search}`}
                   className={classes.main}
                   state={{ fromFeed: false }}
                 >

@@ -330,7 +330,7 @@ export default function Place({ alias }) {
                   />
                 </TabPanel>
                 <TabPanel value={value} index={TABS[2]}>
-                  Page Three
+                  Отзывы
                 </TabPanel>
               </Paper>
             </Grid>
