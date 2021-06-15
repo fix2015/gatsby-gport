@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import PlaceList from "@components/place-list"
 import { Grid } from "@material-ui/core"
 import Typography from "@material-ui/core/Typography"
@@ -8,14 +8,16 @@ import { TYPE } from "@src/Constants"
 import firebase from 'gatsby-plugin-firebase'
 import Alert from '@material-ui/lab/Alert'
 import CircularProgress from '@material-ui/core/CircularProgress'
+import { LoadingContext } from '@hoc/loading'
+import { ErrorMessageContext } from '@hoc/errorMessage'
 
 export default function Type({ alias }) {
   const [db] = useState(firebase.firestore());
   const [places, setPlaces] = useState([]);
   const {id, name} = TYPE.filter(type => type.alias === alias)[0]
   const ref = getByListByType(db, id);
-  const [errorMessage, setErrorMessage] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const { loading, setLoading } = useContext(LoadingContext);
+  const { errorMessage, setErrorMessage } = useContext(ErrorMessageContext);
 
   useEffect(async () => {
     try{
@@ -33,8 +35,6 @@ export default function Type({ alias }) {
 
   return (
     <Grid container>
-      {loading && <Grid container justify={'center'}><CircularProgress /></Grid>}
-      {errorMessage && <Alert severity="error">{errorMessage}</Alert>}
       <Grid item xs={12}>
         <Typography style={{ textTransform: "capitalize" }} variant={"h6"}>
           {name}

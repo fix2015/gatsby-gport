@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import Paper from '@material-ui/core/Paper'
 import Grid from '@material-ui/core/Grid'
@@ -20,6 +20,8 @@ import CircularProgress from '@material-ui/core/CircularProgress'
 import { loadFormatDataOne, getByAlias } from '@api/place'
 import { StringParam, useQueryParam } from 'use-query-params'
 import { updateCollection } from '@api/place'
+import { LoadingContext } from '@hoc/loading'
+import { ErrorMessageContext } from '@hoc/errorMessage'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -42,11 +44,11 @@ export default function Place({ alias }) {
   const classes = useStyles();
   const [activeTab] = useQueryParam('tab', StringParam);
   const defaultTab = TABS.includes(activeTab) ? activeTab : TABS[0];
+  const { loading, setLoading } = useContext(LoadingContext);
+  const { errorMessage, setErrorMessage } = useContext(ErrorMessageContext);
   const [value, setValue] = React.useState(defaultTab);
   const [db] = useState(firebase.firestore());
   const [place, setPlace] = useState({});
-  const [loading, setLoading] = useState(false);
-  const [errorMessage, setErrorMessage] = useState(false);
 
   useEffect(async () => {
     try {
@@ -85,8 +87,6 @@ export default function Place({ alias }) {
 
   return (
     <div className={classes.root}>
-      {errorMessage && <strong>Error: {JSON.stringify(errorMessage)}</strong>}
-      {loading && <Grid container justify={'center'}><CircularProgress /></Grid>}
       {Object.keys(place).length &&
       (
         <Grid container spacing={3}>

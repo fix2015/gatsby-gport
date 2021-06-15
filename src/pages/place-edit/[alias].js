@@ -21,6 +21,8 @@ import Description from '@components/Edit/Description'
 import PhotoUploader from '@components/Edit/PhotoUploader'
 import { TABS, MODEL } from '@src/Constants'
 import { uploadImg, deleteImg } from '@services/s3'
+import { LoadingContext } from '@hoc/loading'
+import { ErrorMessageContext } from '@hoc/errorMessage'
 import { UserContext } from '@hoc/user'
 import Alert from '@material-ui/lab/Alert'
 import CircularProgress from '@material-ui/core/CircularProgress'
@@ -64,9 +66,9 @@ export default function Place({ alias }) {
   const defaultTab = TABS.includes(activeTab) ? activeTab : TABS[0];
   const [value, setValue] = useState(defaultTab);
   const [isPlaceReady, setIsPlaceReady] = useState(false);
-  const [errorMessage, setErrorMessage] = useState(false);
   const [newPlace, setNewPlace] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const { loading, setLoading } = useContext(LoadingContext);
+  const { errorMessage, setErrorMessage } = useContext(ErrorMessageContext);
   const userContextData = useContext(UserContext);
 
   const ref = getByAlias(db, alias);
@@ -256,8 +258,6 @@ export default function Place({ alias }) {
 
   return (
     <div className={classes.root}>
-      {loading && <Grid container justify={'center'}><CircularProgress /></Grid>}
-      {errorMessage && <Alert severity="error">{errorMessage}</Alert>}
       {place &&
       (
         <>

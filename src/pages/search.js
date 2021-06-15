@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import PlaceList from "@components/place-list"
 import { Grid } from "@material-ui/core"
 import Typography from "@material-ui/core/Typography"
@@ -10,12 +10,14 @@ import Box from "@material-ui/core/Box"
 import CircularProgress from '@material-ui/core/CircularProgress'
 import Alert from '@material-ui/lab/Alert'
 import firebase from 'gatsby-plugin-firebase'
+import { LoadingContext } from '@hoc/loading'
+import { ErrorMessageContext } from '@hoc/errorMessage'
 
 export default function Type() {
   const [text] = useQueryParam("text", StringParam);
   const [places, setPlaces] = useState([]);
-  const [errorMessage, setErrorMessage] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const { loading, setLoading } = useContext(LoadingContext);
+  const { errorMessage, setErrorMessage } = useContext(ErrorMessageContext);
   const [db] = useState(firebase.firestore());
 
   const onSearch = async (search) => {
@@ -35,8 +37,6 @@ export default function Type() {
 
   return (
     <Grid container justify={"center"} spacing={3}>
-      {loading && <Grid container justify={'center'}><CircularProgress /></Grid>}
-      {errorMessage && <Alert severity="error">{errorMessage}</Alert>}
       <Grid item xs={12}>
         <Box>
           <Typography style={{ textTransform: "capitalize" }} variant={"h6"}>
