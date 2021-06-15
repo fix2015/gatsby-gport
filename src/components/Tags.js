@@ -1,9 +1,10 @@
 import React from "react"
-import Grid from "@material-ui/core/Grid"
 
-import { generateEditOptionsIcons } from "@services/options"
+import Grid from "@material-ui/core/Grid"
 import { Link } from 'gatsby'
 import { makeStyles } from '@material-ui/core/styles'
+
+import { generateEditOptionsIcons } from "@services/options"
 
 const useStyles = makeStyles(theme => ({
   tags: {

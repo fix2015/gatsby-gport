@@ -56,7 +56,6 @@ export default function Place({ alias }) {
       setLoading(true);
       let place = await loadFormatDataOne(getByAlias(db, alias));
       setPlace(place);
-      console.log(place)
       setLoading(false);
     }catch (e){
       setErrorMessage(e);
