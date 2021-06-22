@@ -34,6 +34,7 @@ export const MODEL = {
   },
   imgs: [],
   options: [],
+  reviews: [],
 }
 
 export const TYPE = [

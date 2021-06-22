@@ -30,6 +30,11 @@ const useStyles = makeStyles(theme => ({
     textDecoration: "none",
   },
   name: {
+    display: 'inline-block',
+    width: '100%',
+    whiteSpace: 'nowrap',
+    overflow: 'hidden !important',
+    textOverflow: 'ellipsis',
     color: theme.palette.action.active,
   },
 }))
