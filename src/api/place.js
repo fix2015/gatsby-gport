@@ -12,6 +12,20 @@ export const updateCollection = (db, {documentId, place}) => {
   return db.collection(COLLECTION).doc(documentId).set(place);
 }
 
+export const getCollection = (db) => {
+  return db.collection(COLLECTION);
+}
+
+export const getCollectionLimit = (db, limit) => {
+  return db.collection(COLLECTION).orderBy('createdAt', 'desc').limit(limit);
+}
+export const getMoreCollectionLimit = (db, limit, key) => {
+  return db.collection('places')
+    .orderBy('createdAt', 'desc')
+    .startAfter(key)
+    .limit(limit)
+}
+
 export const deleteCollection = (db, documentId) => {
   return db.collection(COLLECTION).doc(documentId).delete();
 }

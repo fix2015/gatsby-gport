@@ -10,6 +10,8 @@ import TextField from "@material-ui/core/TextField"
 import List from "@material-ui/core/List"
 import ListSubheader from "@material-ui/core/ListSubheader"
 import { useQueryParams } from "use-query-params"
+import Hidden from '@material-ui/core/Hidden'
+import { Toolbar } from '@material-ui/core'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -59,11 +61,13 @@ export default function ShortInfo({ onCallback }) {
       {searchShortInfo.map(({ icon, name, type, label }, ind) => (
         <ListItem key={ind}>
           <ListItemIcon>{icon}</ListItemIcon>
-          <ListItemText
-            className={classes.label}
-            id="switch-list-label-wifi"
-            primary={label}
-          />
+          <Hidden only={['xs', 'sm']}>
+            <ListItemText
+              className={classes.label}
+              id="switch-list-label-wifi"
+              primary={label}
+            />
+          </Hidden>
           <ListItemSecondaryAction>
             <TextField
               name={name}

@@ -19,6 +19,9 @@ import SearchIcon from '@material-ui/icons/Search'
 import { Link } from 'gatsby'
 import InputBase from '@material-ui/core/InputBase'
 import { AccountCircle } from '@material-ui/icons'
+import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
+import Hidden from '@material-ui/core/Hidden';
+import Typography from '@material-ui/core/Typography'
 
 import MenuSide from './Menu/Side'
 import MenuProfile from './Menu/Profile'
@@ -146,21 +149,23 @@ export default function Main(props) {
                   </IconButton>
                 </Link>
               </Box>
-              <div className={classes.search}>
-                <div className={classes.searchIcon}>
-                  <SearchIcon />
+              <Hidden only={['xs', 'sm']}>
+                <div className={classes.search}>
+                  <div className={classes.searchIcon}>
+                    <SearchIcon />
+                  </div>
+                  <InputBase
+                    placeholder="Search…"
+                    classes={{
+                      root: classes.inputRoot,
+                      input: classes.inputInput,
+                    }}
+                    inputProps={{ 'aria-label': 'search' }}
+                    value={search}
+                    onChange={e => onSearch(e)}
+                  />
                 </div>
-                <InputBase
-                  placeholder="Search…"
-                  classes={{
-                    root: classes.inputRoot,
-                    input: classes.inputInput,
-                  }}
-                  inputProps={{ 'aria-label': 'search' }}
-                  value={search}
-                  onChange={e => onSearch(e)}
-                />
-              </div>
+              </Hidden>
               <Box mr={1}>
                 <Link
                   to={`/search?name=${search}`}
@@ -168,7 +173,14 @@ export default function Main(props) {
                   state={{ fromFeed: false }}
                 >
                   <Button color={'secondary'} variant={'contained'}>
-                    Поиск
+                    <Hidden only={['md', 'lg', 'xl']}>
+                      <SearchIcon />
+                    </Hidden>
+                    <Hidden only={['xs', 'sm']}>
+                      <Typography style={{marginLeft: '5px'}} variant={"body2"}>
+                        Поиск
+                      </Typography>
+                    </Hidden>
                   </Button>
                 </Link>
               </Box>
@@ -178,7 +190,12 @@ export default function Main(props) {
                 state={{ fromFeed: false }}
               >
                 <Button color={'inherit'} variant={'outlined'}>
-                  Добавить жилье
+                  <AddCircleOutlineIcon/>
+                  <Hidden only={['xs', 'sm', 'md']}>
+                    <Typography style={{marginLeft: '5px'}} variant={"body2"}>
+                      Добавить жилье
+                    </Typography>
+                  </Hidden>
                 </Button>
               </Link>
               <IconButton

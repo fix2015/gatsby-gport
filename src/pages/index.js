@@ -1,34 +1,52 @@
-import React, { useState } from 'react'
-import PlaceList from "../components/place-list"
-import { get } from "@api/place"
-import { useCollection } from 'react-firebase-hooks/firestore';
+import React, { useContext, useEffect, useState } from 'react'
+import PlaceList from '../components/place-list'
 import firebase from 'gatsby-plugin-firebase'
-import { Grid } from '@material-ui/core'
-import CircularProgress from '@material-ui/core/CircularProgress'
-import DialogContent from '@material-ui/core/DialogContent'
-
-// import { getPlaces } from '../utils/places'
-// import { useEffect } from 'react'
-// useEffect(() => {
-//   getPlaces()
-// }, [])
+import { LoadingContext } from '../hoc/loading'
+import { ErrorMessageContext } from '../hoc/errorMessage'
+import { getCollectionLimit, getMoreCollectionLimit, loadFormatData } from '../api/place'
+import { LIMIT } from '../Constants'
 
 export default function Index() {
   const [db] = useState(firebase.firestore())
+  const [places, setPlaces] = useState([]);
+  const [hasMore, setHasMore] = useState(true);
+  const ref = getCollectionLimit(db, LIMIT);
+  const { loading, setLoading } = useContext(LoadingContext);
+  const { errorMessage, setErrorMessage } = useContext(ErrorMessageContext);
 
-  const [places, loading, error] = useCollection(
-    db.collection('places')
-  );
+  useEffect(async () => {
+    try{
+      setErrorMessage('');
+      setLoading(true);
+      const data = await loadFormatData(ref);
+      setPlaces(data);
+    }catch (e){
+      setErrorMessage('Error getting documents');
+      setPlaces([]);
+    }
 
-  const getDataFromRef = (places) => {
-    return places.docs.map((place) => { return place.data()})
+    setLoading(false);
+  }, [])
+
+  console.log(places)
+
+  const fetchMoreData = async (key) => {
+    try{
+      setErrorMessage('');
+      setLoading(true);
+      const ref = getMoreCollectionLimit(db, LIMIT, places[places.length - 1].createdAt)
+      const data = await loadFormatData(ref);
+      setPlaces([...places, ...data]);
+    }catch (e){
+      setHasMore(false);
+      setLoading(false);
+      setErrorMessage('Больше нечего не найдено');
+    }
   }
 
   return (
     <>
-      {error && <strong>Error: {JSON.stringify(error)}</strong>}
-      {loading && <Grid container justify={'center'}><CircularProgress /></Grid>}
-      {places && <PlaceList items={getDataFromRef(places)} />}
+      {places && <PlaceList hasMore={hasMore} fetchMoreData={fetchMoreData} items={places} />}
     </>
   )
 }

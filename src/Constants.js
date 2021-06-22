@@ -18,6 +18,8 @@ export const USER_MODEL = {
   uid: null
 }
 
+export const LIMIT = 4;
+
 export const MODEL = {
   name: "",
   uid: "",
