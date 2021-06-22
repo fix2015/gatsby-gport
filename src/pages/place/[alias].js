@@ -87,7 +87,7 @@ export default function Place({ alias }) {
 
   return (
     <div className={classes.root}>
-      {Object.keys(place).length &&
+      {Object.keys(place).length ?
       (
         <Grid container spacing={3}>
           <Grid item lg={7} md={7} xs={12}>
@@ -126,7 +126,7 @@ export default function Place({ alias }) {
               </TabPanel>
             </Paper>
           </Grid>
-        </Grid>)
+        </Grid>) : ''
       }
     </div>
   )
