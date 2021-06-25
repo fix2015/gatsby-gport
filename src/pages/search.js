@@ -9,7 +9,7 @@ import SearchPanel from "@components/SearchPanel"
 import Box from "@material-ui/core/Box"
 import CircularProgress from '@material-ui/core/CircularProgress'
 import Alert from '@material-ui/lab/Alert'
-import firebase from 'gatsby-plugin-firebase'
+import firebase from '@services/db'
 import { LoadingContext } from '@hoc/loading'
 import { ErrorMessageContext } from '@hoc/errorMessage'
 

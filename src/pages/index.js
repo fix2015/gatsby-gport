@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 import PlaceList from '../components/place-list'
-import firebase from 'gatsby-plugin-firebase'
+import firebase from '@services/db'
 import { LoadingContext } from '../hoc/loading'
 import { ErrorMessageContext } from '../hoc/errorMessage'
 import { getCollectionLimit, getMoreCollectionLimit, loadFormatData } from '../api/place'

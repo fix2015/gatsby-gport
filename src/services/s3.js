@@ -3,7 +3,11 @@ import { Buffer } from "buffer"
 
 import { AWS_CONFIG } from "@src/config"
 import { randormHash } from "@services/string"
-window.Buffer = Buffer
+import { isBrowser } from '@utils'
+
+if (isBrowser) {
+  window.Buffer = Buffer
+}
 
 export const uploadImg = (file, folder) => {
   AWS_CONFIG.dirName = folder

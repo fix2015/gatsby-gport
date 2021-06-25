@@ -1,4 +1,4 @@
-// import firebase from "gatsby-plugin-firebase"
+// import firebase from "@services/db"
 // import {FIRE_BASE_CONFIG} from '/src/config'
 //
 // if (!firebase.apps.length) {

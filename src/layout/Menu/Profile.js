@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react'
 import Menu from '@material-ui/core/Menu'
 import MenuItem from '@material-ui/core/MenuItem'
-import firebase from 'gatsby-plugin-firebase'
+import firebase from '@services/db'
 
 import Login from '@components/Modal/Login'
 import SignUp from '@components/Modal/SignUp'

@@ -11,7 +11,7 @@ import { useQueryParam, StringParam } from 'use-query-params'
 import AddCircleIcon from '@material-ui/icons/AddCircle'
 import Fab from '@material-ui/core/Fab'
 import { navigate } from 'gatsby'
-import firebase from 'gatsby-plugin-firebase'
+import firebase from '@services/db'
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 
 import TabPanel from '@components/TabPanel'

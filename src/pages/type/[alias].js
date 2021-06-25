@@ -5,7 +5,7 @@ import Typography from "@material-ui/core/Typography"
 
 import { getByListByType, loadFormatData } from "@api/place"
 import { TYPE } from "@src/Constants"
-import firebase from 'gatsby-plugin-firebase'
+import firebase from '@services/db'
 import Alert from '@material-ui/lab/Alert'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import { LoadingContext } from '@hoc/loading'

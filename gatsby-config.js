@@ -21,6 +21,12 @@ module.exports = {
     //   },
     // },
     {
+      resolve: `gatsby-plugin-s3`,
+      options: {
+        bucketName: "gport-site",
+      },
+    },
+    {
       resolve: "gatsby-plugin-firebase",
       options: {
         features: {
