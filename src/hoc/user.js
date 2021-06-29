@@ -8,7 +8,7 @@ export const UserContext = React.createContext(USER_MODEL)
 
 export const UserHOC = ({ children }) => {
   const [userContextData, setUserContextData] = useState(USER_MODEL)
-  // if (!isBrowser) return <></>
+  if (!isBrowser) return <></>
   const [user, loading, error] = useAuthState(firebase.auth())
 
   useEffect(() => {
