@@ -35,7 +35,6 @@ const login = async ({ email, password }) => {
   //   });
   // const snapshot = await firestore.collection("places").get()
   // snapshot.docs.forEach(doc => console.log(doc.data()))
-
   // setUser((user) => ({
   //   email: email,
   //   auth: true,
@@ -48,5 +47,3 @@ const login = async ({ email, password }) => {
 //     auth: false,
 //   }))
 // }
-
-

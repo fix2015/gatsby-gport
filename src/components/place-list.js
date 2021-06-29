@@ -9,21 +9,17 @@ export default function PlaceList({ items, hasMore, fetchMoreData }) {
       dataLength={items.length}
       next={fetchMoreData}
       hasMore={hasMore}
-      style={{
-        overflow: 'hidden'
-      }}
     >
       <Grid
         container
         direction="row"
         justify="center"
         alignItems="center"
-        spacing={2}
       >
         {items.map((item, ind) => (
+
           <Grid
             justify="center"
-            container
             key={ind}
             item
             xs={12}

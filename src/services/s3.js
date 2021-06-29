@@ -3,7 +3,7 @@ import { Buffer } from "buffer"
 
 import { AWS_CONFIG } from "@src/config"
 import { randormHash } from "@services/string"
-import { isBrowser } from '@utils'
+import { isBrowser } from "@utils"
 
 if (isBrowser) {
   window.Buffer = Buffer

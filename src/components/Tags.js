@@ -1,22 +1,22 @@
 import React from "react"
 
 import Grid from "@material-ui/core/Grid"
-import { Link } from 'gatsby'
-import { makeStyles } from '@material-ui/core/styles'
+import { Link } from "gatsby"
+import { makeStyles } from "@material-ui/core/styles"
 
 import { generateEditOptionsIcons } from "@services/options"
 
 const useStyles = makeStyles(theme => ({
   tags: {
     textDecoration: "none",
-    color: '#1976d2',
-  }
+    color: "#1976d2",
+  },
 }))
 
 export default function Tags({ options }) {
   const classes = useStyles()
 
-  const optionParams = generateEditOptionsIcons(options);
+  const optionParams = generateEditOptionsIcons(options)
 
   return (
     <Grid container justify={"center"} spacing={3}>
@@ -30,7 +30,9 @@ export default function Tags({ options }) {
               className={classes.tags}
               to={`/search?${name}=true`}
               state={{ fromFeed: true }}
-            >#{label}</Link>
+            >
+              #{label}
+            </Link>
           </Grid>
         ))}
     </Grid>

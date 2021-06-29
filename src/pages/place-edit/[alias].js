@@ -1,32 +1,39 @@
-import React, { useContext, useEffect, useState } from 'react'
-import { makeStyles } from '@material-ui/core/styles'
-import Paper from '@material-ui/core/Paper'
-import Grid from '@material-ui/core/Grid'
-import Tabs from '@material-ui/core/Tabs'
-import Tab from '@material-ui/core/Tab'
-import DescriptionIcon from '@material-ui/icons/Description'
-import MapIcon from '@material-ui/icons/Map'
-import PersonPinIcon from '@material-ui/icons/PersonPin'
-import { useQueryParam, StringParam } from 'use-query-params'
-import AddCircleIcon from '@material-ui/icons/AddCircle'
-import Fab from '@material-ui/core/Fab'
-import { navigate } from 'gatsby'
-import firebase from '@services/db'
-import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
+import React, { useContext, useEffect, useState } from "react"
+import { makeStyles } from "@material-ui/core/styles"
+import Paper from "@material-ui/core/Paper"
+import Grid from "@material-ui/core/Grid"
+import Tabs from "@material-ui/core/Tabs"
+import Tab from "@material-ui/core/Tab"
+import DescriptionIcon from "@material-ui/icons/Description"
+import MapIcon from "@material-ui/icons/Map"
+import PersonPinIcon from "@material-ui/icons/PersonPin"
+import { useQueryParam, StringParam } from "use-query-params"
+import AddCircleIcon from "@material-ui/icons/AddCircle"
+import Fab from "@material-ui/core/Fab"
+import { navigate } from "gatsby"
+import firebase from "@services/db"
+import DeleteForeverIcon from "@material-ui/icons/DeleteForever"
 
-import TabPanel from '@components/TabPanel'
-import ShortDescription from '@components/Edit/ShortDescription'
-import GoogleMap from '@components/Edit/GoogleMap'
-import Description from '@components/Edit/Description'
-import PhotoUploader from '@components/Edit/PhotoUploader'
-import { TABS, MODEL } from '@src/Constants'
-import { uploadImg, deleteImg } from '@services/s3'
-import { LoadingContext } from '@hoc/loading'
-import { ErrorMessageContext } from '@hoc/errorMessage'
-import { UserContext } from '@hoc/user'
-import Alert from '@material-ui/lab/Alert'
-import CircularProgress from '@material-ui/core/CircularProgress'
-import { createCollection, loadFormatDataOne, updateCollection, deleteCollection, isDublicate, getByAlias } from '@api/place'
+import TabPanel from "@components/TabPanel"
+import ShortDescription from "@components/Edit/ShortDescription"
+import GoogleMap from "@components/Edit/GoogleMap"
+import Description from "@components/Edit/Description"
+import PhotoUploader from "@components/Edit/PhotoUploader"
+import { TABS, MODEL } from "@src/Constants"
+import { uploadImg, deleteImg } from "@services/s3"
+import { LoadingContext } from "@hoc/loading"
+import { ErrorMessageContext } from "@hoc/errorMessage"
+import { UserContext } from "@hoc/user"
+import Alert from "@material-ui/lab/Alert"
+import CircularProgress from "@material-ui/core/CircularProgress"
+import {
+  createCollection,
+  loadFormatDataOne,
+  updateCollection,
+  deleteCollection,
+  isDublicate,
+  getByAlias,
+} from "@api/place"
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -35,104 +42,105 @@ const useStyles = makeStyles(theme => ({
   slider: {
     padding: theme.spacing(2),
     paddingBottom: theme.spacing(5),
-    textAlign: 'center',
+    textAlign: "center",
     color: theme.palette.text.secondary,
   },
   paper: {
     padding: theme.spacing(2),
-    textAlign: 'center',
+    textAlign: "center",
     color: theme.palette.text.secondary,
   },
   save: {
-    position: 'fixed',
+    position: "fixed",
     zIndex: 100,
-    right: '20px',
-    bottom: '20px',
+    right: "20px",
+    bottom: "20px",
   },
   delete: {
-    position: 'fixed',
+    position: "fixed",
     zIndex: 100,
-    right: '90px',
-    bottom: '20px',
+    right: "90px",
+    bottom: "20px",
   },
 }))
 
 export default function Place({ alias }) {
-  const classes = useStyles();
-  const [db] = useState(firebase.firestore());
-  const [place, setPlace] = useState(MODEL);
-  const { description, position, name } = place;
-  const [activeTab] = useQueryParam('tab', StringParam);
-  const defaultTab = TABS.includes(activeTab) ? activeTab : TABS[0];
-  const [value, setValue] = useState(defaultTab);
-  const [isPlaceReady, setIsPlaceReady] = useState(false);
-  const [newPlace, setNewPlace] = useState(false);
-  const { loading, setLoading } = useContext(LoadingContext);
-  const { errorMessage, setErrorMessage } = useContext(ErrorMessageContext);
-  const userContextData = useContext(UserContext);
+  const classes = useStyles()
+  const [db] = useState(firebase.firestore())
+  const [place, setPlace] = useState(MODEL)
+  const { description, position, name } = place
+  const [activeTab] = useQueryParam("tab", StringParam)
+  const defaultTab = TABS.includes(activeTab) ? activeTab : TABS[0]
+  const [value, setValue] = useState(defaultTab)
+  const [isPlaceReady, setIsPlaceReady] = useState(false)
+  const [newPlace, setNewPlace] = useState(false)
+  const { loading, setLoading } = useContext(LoadingContext)
+  const { errorMessage, setErrorMessage } = useContext(ErrorMessageContext)
+  const userContextData = useContext(UserContext)
 
-  const ref = getByAlias(db, alias);
+  const ref = getByAlias(db, alias)
 
   useEffect(async () => {
-    try{
-      const data = await loadFormatDataOne(ref);
-      if(!Object.keys(data).length){
-        setNewPlace(true);
-        setPlace(MODEL);
-      }else{
-        setPlace(data);
+    try {
+      const data = await loadFormatDataOne(ref)
+      if (!Object.keys(data).length) {
+        setNewPlace(true)
+        setPlace(MODEL)
+      } else {
+        setPlace(data)
       }
-    }catch (e){
-      setPlace(MODEL);
+    } catch (e) {
+      setPlace(MODEL)
     }
 
-    setLoading(false);
+    setLoading(false)
   }, [])
 
   useEffect(async () => {
-    setErrorMessage(null);
-    if(!userContextData.uid) setErrorMessage('Чтобы создать обьявления, Вам нужно пройти авторизацию');
+    setErrorMessage(null)
+    if (!userContextData.uid)
+      setErrorMessage("Чтобы создать обьявления, Вам нужно пройти авторизацию")
   }, [userContextData])
 
   const saveButton = {
     icon: <AddCircleIcon />,
-    color: 'secondary',
-    label: 'Сохранить',
+    color: "secondary",
+    label: "Сохранить",
     className: classes.save,
     disabled: true,
   }
 
   const deleteButton = {
     icon: <DeleteForeverIcon />,
-    color: 'primary',
-    label: 'Delete',
+    color: "primary",
+    label: "Delete",
     className: classes.delete,
     disabled: false,
   }
 
   const handleChange = (event, newValue) => {
-    setValue(newValue);
+    setValue(newValue)
   }
 
   const onGetPosition = position => {
-    setPlace({ ...place, position });
+    setPlace({ ...place, position })
   }
 
   const onModelChange = description => {
-    setPlace({ ...place, description });
+    setPlace({ ...place, description })
   }
 
   const onShortDescriptionChanges = info => {
-    setPlace({ ...place, ...info });
+    setPlace({ ...place, ...info })
   }
 
   const onAddImg = imgs => {
-    setPlace({ ...place, imgs: [...place.imgs, ...imgs] });
+    setPlace({ ...place, imgs: [...place.imgs, ...imgs] })
   }
 
   const onDeleteImg = async (fileName, documentId) => {
     try {
-      await deleteImg(fileName, documentId);
+      await deleteImg(fileName, documentId)
 
       setPlace({
         ...place,
@@ -141,125 +149,135 @@ export default function Place({ alias }) {
         ],
       })
     } catch (e) {
-      setErrorMessage('Error on delete img')
+      setErrorMessage("Error on delete img")
       console.error(e)
     }
   }
 
   const uploadImgs = (imgs, folder) => {
-    const promises = [];
+    const promises = []
     imgs.forEach(img => {
-      if (img instanceof File) promises.push(uploadImg(img, folder));
+      if (img instanceof File) promises.push(uploadImg(img, folder))
     })
 
     return Promise.all(promises).then(data => {
-      return Promise.resolve(data.map(img => img.location));
+      return Promise.resolve(data.map(img => img.location))
     })
   }
 
   const updatePlace = async () => {
-    try{
-      const { documentId, imgs } = place;
+    try {
+      const { documentId, imgs } = place
 
-      const awsSrc = await uploadImgs(imgs, documentId);
-      place.uid = userContextData.uid;
+      const awsSrc = await uploadImgs(imgs, documentId)
+      place.uid = userContextData.uid
 
       if (awsSrc.length) {
-        await updateCollection(db,{documentId, place: Object.assign(place, { imgs: awsSrc })});
+        await updateCollection(db, {
+          documentId,
+          place: Object.assign(place, { imgs: awsSrc }),
+        })
       } else {
-        await updateCollection(db,{documentId, place});
+        await updateCollection(db, { documentId, place })
       }
 
-      return true;
-    }catch (e){
-      setLoading(false);
+      return true
+    } catch (e) {
+      setLoading(false)
       console.error(e)
     }
   }
 
   const createPlace = async () => {
-    try{
-      const isValidData = await isDublicate(db, place);
-      if(!isValidData) return Promise.reject('Dublicate alias or name');
+    try {
+      const isValidData = await isDublicate(db, place)
+      if (!isValidData) return Promise.reject("Dublicate alias or name")
 
-      setLoading(true);
-      let { imgs, alias } = place;
-      if (!userContextData.uid) navigate('/');
-      place.uid = userContextData.uid;
-      await createCollection(db, {place: {...place, imgs: []}});
-      let responce = await loadFormatDataOne(getByAlias(db, alias));
-      const {documentId} = responce;
+      setLoading(true)
+      let { imgs, alias } = place
+      if (!userContextData.uid) navigate("/")
+      place.uid = userContextData.uid
+      await createCollection(db, { place: { ...place, imgs: [] } })
+      let responce = await loadFormatDataOne(getByAlias(db, alias))
+      const { documentId } = responce
 
-      const awsSrc = await uploadImgs(imgs, documentId);
+      const awsSrc = await uploadImgs(imgs, documentId)
       if (awsSrc.length) {
-        place.uid = userContextData.uid;
-        await updateCollection(db,{documentId, place: Object.assign(place, { imgs: awsSrc})});
+        place.uid = userContextData.uid
+        await updateCollection(db, {
+          documentId,
+          place: Object.assign(place, { imgs: awsSrc }),
+        })
       }
-      setLoading(false);
+      setLoading(false)
 
-      return true;
-    }catch (e){
-      setLoading(false);
+      return true
+    } catch (e) {
+      setLoading(false)
       console.error(e)
       // setErrorMessage(e.toString());
     }
   }
 
-  const deletePlace = async (documentId) => {
-    try{
-      setLoading(true);
-      let { imgs } = place;
-      const promises = [];
-      imgs.forEach((img) => {
-        promises.push(onDeleteImg(img, documentId));
+  const deletePlace = async documentId => {
+    try {
+      setLoading(true)
+      let { imgs } = place
+      const promises = []
+      imgs.forEach(img => {
+        promises.push(onDeleteImg(img, documentId))
       })
       await Promise.all(promises)
-      const data = await deleteCollection(db, documentId);
-      setLoading(false);
+      const data = await deleteCollection(db, documentId)
+      setLoading(false)
 
-      return navigate('/');
-    }catch (err){
-      setLoading(false);
+      return navigate("/")
+    } catch (err) {
+      setLoading(false)
       console.error(err)
-      setErrorMessage('Сервер не может удалить ваше жилье');
+      setErrorMessage("Сервер не может удалить ваше жилье")
     }
   }
 
   const savePlace = async () => {
     try {
-      setLoading(true);
-      const { documentId } = place;
+      setLoading(true)
+      const { documentId } = place
 
       if (documentId) {
-        await updatePlace();
+        await updatePlace()
       } else {
-        await createPlace();
+        await createPlace()
       }
-      setLoading(false);
+      setLoading(false)
 
-      navigate('/');
+      navigate("/")
     } catch (e) {
       setErrorMessage(e)
-      setLoading(false);
+      setLoading(false)
       console.error(e)
     }
   }
 
   useEffect(() => {
-    console.log(place);
+    console.log(place)
 
-    const { address, phone, price, imgs } = place;
+    const { address, phone, price, imgs } = place
 
     setIsPlaceReady(
-      !(name.length && address.length && phone.length && price.length && imgs.length),
+      !(
+        name.length &&
+        address.length &&
+        phone.length &&
+        price.length &&
+        imgs.length
+      )
     )
   }, [place])
 
-
   return (
     <div className={classes.root}>
-      {place &&
-      (
+      {place && (
         <>
           <Fab
             onClick={savePlace}
@@ -314,7 +332,11 @@ export default function Place({ alias }) {
                     label="Описания"
                   />
                   <Tab value={`map`} icon={<MapIcon />} label="Карта" />
-                  <Tab value={`reviews`} icon={<PersonPinIcon />} label="Отзывы" />
+                  <Tab
+                    value={`reviews`}
+                    icon={<PersonPinIcon />}
+                    label="Отзывы"
+                  />
                 </Tabs>
                 <TabPanel value={value} index={TABS[0]}>
                   <Description
@@ -335,7 +357,8 @@ export default function Place({ alias }) {
               </Paper>
             </Grid>
           </Grid>
-        </>)}
+        </>
+      )}
     </div>
   )
 }

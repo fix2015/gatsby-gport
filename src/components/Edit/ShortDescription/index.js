@@ -34,14 +34,15 @@ export default function Index({
 }) {
   const classes = useStyles()
 
-  const [place, setPlace] = useState({ phone,
+  const [place, setPlace] = useState({
+    phone,
     address,
     price,
     type,
     alias,
     distance,
-    name})
-
+    name,
+  })
 
   const handleChange = e => {
     setPlace({ ...place, type: e.target.value })

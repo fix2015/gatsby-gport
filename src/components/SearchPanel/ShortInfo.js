@@ -10,8 +10,8 @@ import TextField from "@material-ui/core/TextField"
 import List from "@material-ui/core/List"
 import ListSubheader from "@material-ui/core/ListSubheader"
 import { useQueryParams } from "use-query-params"
-import Hidden from '@material-ui/core/Hidden'
-import { Toolbar } from '@material-ui/core'
+import Hidden from "@material-ui/core/Hidden"
+import { Toolbar } from "@material-ui/core"
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -24,20 +24,20 @@ const useStyles = makeStyles(theme => ({
 }))
 
 const searchShortInfo = SHORT_INFO.filter(({ search }) => search)
-const shortInfoObj = {};
-const querySearch = {};
+const shortInfoObj = {}
+const querySearch = {}
 
 searchShortInfo.forEach(({ name, queryType }) => {
   shortInfoObj[name] = ""
-  querySearch[name] = queryType;
+  querySearch[name] = queryType
 })
 
 export default function ShortInfo({ onCallback }) {
-  const classes = useStyles();
-  const [shortInfo, setShortInfo] = useState({ ...shortInfoObj});
-  const [query] = useQueryParams(querySearch);
+  const classes = useStyles()
+  const [shortInfo, setShortInfo] = useState({ ...shortInfoObj })
+  const [query] = useQueryParams(querySearch)
 
-  const setStartParams = (shortInfo) => {
+  const setStartParams = shortInfo => {
     setShortInfo({ ...shortInfo, ...query })
   }
 
@@ -46,7 +46,7 @@ export default function ShortInfo({ onCallback }) {
   }
 
   useEffect(() => {
-    setStartParams(shortInfo);
+    setStartParams(shortInfo)
   }, [])
 
   useEffect(() => {
@@ -61,7 +61,7 @@ export default function ShortInfo({ onCallback }) {
       {searchShortInfo.map(({ icon, name, type, label }, ind) => (
         <ListItem key={ind}>
           <ListItemIcon>{icon}</ListItemIcon>
-          <Hidden only={['xs', 'sm']}>
+          <Hidden only={["xs", "sm"]}>
             <ListItemText
               className={classes.label}
               id="switch-list-label-wifi"

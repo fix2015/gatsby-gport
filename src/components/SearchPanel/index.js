@@ -1,11 +1,11 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from "react"
 import { makeStyles } from "@material-ui/core/styles"
-import { Button, Grid } from '@material-ui/core'
+import { Button, Grid } from "@material-ui/core"
 
 import ShortInfo from "./ShortInfo"
 import Options from "./Options"
 import Paper from "@material-ui/core/Paper"
-import useDebounce from '@services/debounce'
+import useDebounce from "@services/debounce"
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -13,40 +13,40 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: theme.palette.background.paper,
   },
   button: {
-    textAlign: 'right'
-  }
+    textAlign: "right",
+  },
 }))
 
 export default function Index({ onCalback }) {
-  const classes = useStyles();
-  const [search, setSearch] = useState({});
-  const [searchShortInfo, setSearchShortInfo] = useState({});
-  const [searchOptionInfo, setSearchOptionInfo] = useState({});
-  const [startSearch, setStartSearch] = useState(true);
+  const classes = useStyles()
+  const [search, setSearch] = useState({})
+  const [searchShortInfo, setSearchShortInfo] = useState({})
+  const [searchOptionInfo, setSearchOptionInfo] = useState({})
+  const [startSearch, setStartSearch] = useState(true)
 
-  const onShortInfoSearch = (shortInfo) => {
+  const onShortInfoSearch = shortInfo => {
     setSearchShortInfo({ ...searchShortInfo, ...shortInfo })
   }
 
-  const onOptionsSearch = (options) => {
+  const onOptionsSearch = options => {
     setSearchOptionInfo({ ...searchOptionInfo, ...options })
   }
 
-  const debouncedSearchTerm = useDebounce(search, 500);
+  const debouncedSearchTerm = useDebounce(search, 500)
 
   useEffect(() => {
-    if(!Object.keys(search).length || !startSearch) return ;
+    if (!Object.keys(search).length || !startSearch) return
 
-    onCalback(search);
+    onCalback(search)
     setStartSearch(false)
   }, [debouncedSearchTerm])
 
   useEffect(() => {
-   setSearch({...searchShortInfo, ...searchOptionInfo})
+    setSearch({ ...searchShortInfo, ...searchOptionInfo })
   }, [searchShortInfo, searchOptionInfo])
 
   return (
-    <Grid container spacing={3} ustify={'flex-start'} >
+    <Grid container spacing={3} ustify={"flex-start"}>
       <Grid item lg={6} md={6} xs={12}>
         <Paper square className={classes.root}>
           <ShortInfo onCallback={onShortInfoSearch} />
@@ -58,7 +58,11 @@ export default function Index({ onCalback }) {
         </Paper>
       </Grid>
       <Grid className={classes.button} item xs={12}>
-        <Button onClick={() => onCalback(search)} color={'secondary'} variant={'contained'}>
+        <Button
+          onClick={() => onCalback(search)}
+          color={"secondary"}
+          variant={"contained"}
+        >
           Поиск
         </Button>
       </Grid>

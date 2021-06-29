@@ -1,94 +1,110 @@
 import { COLLECTION } from "@src/Constants"
 
-export const createCollection = (db, {place}) => {
-  delete place.documentId;
+export const createCollection = (db, { place }) => {
+  delete place.documentId
 
-  return db.collection(COLLECTION).doc().set({...place, imgs: []});
+  return db
+    .collection(COLLECTION)
+    .doc()
+    .set({ ...place, imgs: [] })
 }
 
-export const updateCollection = (db, {documentId, place}) => {
-  delete place.documentId;
+export const updateCollection = (db, { documentId, place }) => {
+  delete place.documentId
 
-  return db.collection(COLLECTION).doc(documentId).set(place);
+  return db.collection(COLLECTION).doc(documentId).set(place)
 }
 
-export const getCollection = (db) => {
-  return db.collection(COLLECTION);
+export const getCollection = db => {
+  return db.collection(COLLECTION)
 }
 
 export const getCollectionLimit = (db, limit) => {
-  return db.collection(COLLECTION).orderBy('createdAt', 'desc').limit(limit);
+  if(!db) return ;
+  
+  return db.collection(COLLECTION).orderBy("createdAt", "desc").limit(limit)
 }
 export const getMoreCollectionLimit = (db, limit, key) => {
-  return db.collection('places')
-    .orderBy('createdAt', 'desc')
+  return db
+    .collection("places")
+    .orderBy("createdAt", "desc")
     .startAfter(key)
     .limit(limit)
 }
 
 export const deleteCollection = (db, documentId) => {
-  return db.collection(COLLECTION).doc(documentId).delete();
+  return db.collection(COLLECTION).doc(documentId).delete()
 }
 
 export const getByAlias = (db, alias) => {
-  return db.collection(COLLECTION).where('alias', '==', alias);
+  return db.collection(COLLECTION).where("alias", "==", alias)
 }
 
 export const getByName = (db, name) => {
-  return db.collection(COLLECTION).where('name', '==', name);
+  return db.collection(COLLECTION).where("name", "==", name)
 }
 
 export const getByListByAlias = (db, alias) => {
-  return db.collection(COLLECTION).where('alias', '==', alias);
+  return db.collection(COLLECTION).where("alias", "==", alias)
 }
 
 export const getByListByType = (db, type) => {
-  return db.collection(COLLECTION).where('type', '==', type);
+  return db.collection(COLLECTION).where("type", "==", type)
 }
 
-export const isDublicate = (db, {name, alias}) => {
+export const isDublicate = (db, { name, alias }) => {
   return Promise.all([
-    db.collection(COLLECTION).where("alias", "==", alias).get().then(doc => {
-      return doc.empty;
-    }),
-    db.collection(COLLECTION).where("name", "==", name).get().then(doc => {
-      return doc.empty;
-    })
+    db
+      .collection(COLLECTION)
+      .where("alias", "==", alias)
+      .get()
+      .then(doc => {
+        return doc.empty
+      }),
+    db
+      .collection(COLLECTION)
+      .where("name", "==", name)
+      .get()
+      .then(doc => {
+        return doc.empty
+      }),
   ])
-    .then( ( [ one, two ] ) => {
-      return Promise.resolve(one && two);
+    .then(([one, two]) => {
+      return Promise.resolve(one && two)
     })
-    .catch((e) => {
+    .catch(e => {
       console.error(e)
     })
 }
 
-export const loadFormatData = (ref) => {
+export const loadFormatData = ref => {
   return new Promise((res, rej) => {
-    ref.get()
+    ref
+      .get()
       .then(snapshot => {
         if (snapshot.empty) {
-          rej();
+          rej()
         }
-        const collections = [];
+        const collections = []
         snapshot.forEach(doc => {
           collections.push({
             ...doc.data(),
             documentId: doc.id,
           })
-        });
+        })
 
-        res(collections);
+        res(collections)
       })
       .catch(err => {
-        rej();
-      });
+        rej()
+      })
   })
 }
 
-export const loadFormatDataOne = (ref) => {
+export const loadFormatDataOne = ref => {
   return new Promise((res, rej) => {
-    ref.get()
+    ref
+      .get()
       .then(snapshot => {
         if (snapshot.empty) {
           res({})
@@ -98,16 +114,16 @@ export const loadFormatDataOne = (ref) => {
             ...doc.data(),
             documentId: doc.id,
           })
-        });
+        })
       })
       .catch(err => {
-        rej();
-      });
+        rej()
+      })
   })
 }
 
 export const getListBySearch = async (db, obj) => {
-  let ref = db.collection(COLLECTION);
+  let ref = db.collection(COLLECTION)
 
   // let options = [];
   // for (var prop in obj) {
@@ -130,13 +146,13 @@ export const getListBySearch = async (db, obj) => {
   //   ref = ref.where('options', 'in', options)
   // }
 
-  const places = await loadFormatData(ref);
+  const places = await loadFormatData(ref)
 
-  return queryForObj(obj, places);
+  return queryForObj(obj, places)
 }
 
 export const queryForObj = (obj, places) => {
-  let res = places;
+  let res = places
 
   for (var prop in obj) {
     if (typeof obj[prop] === "string") {
@@ -149,36 +165,14 @@ export const queryForObj = (obj, places) => {
     } else if (typeof obj[prop] === "boolean") {
       if (obj[prop]) {
         res = res.filter(
-          place => place.options.filter((data) => data === prop).length
+          place => place.options.filter(data => data === prop).length
         )
       }
     }
   }
 
-  return res;
+  return res
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // api for localstorage
 // export const get = () => {

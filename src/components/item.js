@@ -12,16 +12,15 @@ import CardHeader from "@material-ui/core/CardHeader"
 import { useQueryParam, StringParam } from "use-query-params"
 import { Link, navigate } from "gatsby"
 
-import Img from 'gatsby-image';
-import { StaticQuery, graphql } from 'gatsby';
+import Img from "gatsby-image"
+import { StaticQuery, graphql } from "gatsby"
 
 import ListOfOptions from "@components/ListOfOptions"
 import theme from "../theme"
 
 const useStyles = makeStyles(theme => ({
   root: {
-    maxWidth: 345,
-    width: "100%",
+    margin: theme.spacing(2)
   },
   media: {
     height: 140,
@@ -30,11 +29,11 @@ const useStyles = makeStyles(theme => ({
     textDecoration: "none",
   },
   name: {
-    display: 'inline-block',
-    width: '100%',
-    whiteSpace: 'nowrap',
-    overflow: 'hidden !important',
-    textOverflow: 'ellipsis',
+    display: "inline-block",
+    width: "100%",
+    whiteSpace: "nowrap",
+    overflow: "hidden !important",
+    textOverflow: "ellipsis",
     color: theme.palette.action.active,
   },
 }))
@@ -74,7 +73,6 @@ const Item = ({ item }) => {
             }
           />
         )}
-
         <CardMedia
           className={classes.media}
           image={item.imgs[0]}
@@ -131,7 +129,4 @@ const Item = ({ item }) => {
 //   render={renderImage}
 // />
 
-export default Item;
-
-
-
+export default Item

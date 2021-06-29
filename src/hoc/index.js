@@ -1,16 +1,14 @@
-import React from 'react'
+import React from "react"
 
-import { UserHOC } from '@hoc/user'
-import { LoadingHOC } from '@hoc/loading'
-import { ErrorMessageHOC } from '@hoc/errorMessage'
+import { UserHOC } from "@hoc/user"
+import { LoadingHOC } from "@hoc/loading"
+import { ErrorMessageHOC } from "@hoc/errorMessage"
 
-export const Hoc = ({children}) => {
+export const Hoc = ({ children }) => {
   return (
     <UserHOC>
       <LoadingHOC>
-        <ErrorMessageHOC>
-          {children}
-        </ErrorMessageHOC>
+        <ErrorMessageHOC>{children}</ErrorMessageHOC>
       </LoadingHOC>
     </UserHOC>
   )

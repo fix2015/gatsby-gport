@@ -1,48 +1,52 @@
 import { REVIEWS } from "@src/Constants"
 
 export const createCollection = (db, review) => {
-  delete review.documentId;
+  delete review.documentId
 
-  return db.collection(REVIEWS).doc().set({...review});
+  return db
+    .collection(REVIEWS)
+    .doc()
+    .set({ ...review })
 }
 
-export const updateCollection = (db, {documentId, review}) => {
-  delete review.documentId;
+export const updateCollection = (db, { documentId, review }) => {
+  delete review.documentId
 
-  return db.collection(REVIEWS).doc(documentId).set(review);
+  return db.collection(REVIEWS).doc(documentId).set(review)
 }
 
 export const deleteCollection = (db, documentId) => {
-  return db.collection(REVIEWS).doc(documentId).delete();
+  return db.collection(REVIEWS).doc(documentId).delete()
 }
 
 export const getByDocumentId = (db, documentId) => {
-  return db.collection(REVIEWS).where('documentId', '==', documentId);
+  return db.collection(REVIEWS).where("documentId", "==", documentId)
 }
 
 export const getByPlaceId = (db, placeId) => {
-  return db.collection(REVIEWS).where('placeId', '==', placeId);
+  return db.collection(REVIEWS).where("placeId", "==", placeId)
 }
 
-export const loadFormatData = (ref) => {
+export const loadFormatData = ref => {
   return new Promise((res, rej) => {
-    ref.get()
+    ref
+      .get()
       .then(snapshot => {
         if (snapshot.empty) {
-          rej();
+          rej()
         }
-        const collections = [];
+        const collections = []
         snapshot.forEach(doc => {
           collections.push({
             ...doc.data(),
             documentId: doc.id,
           })
-        });
+        })
 
-        res(collections);
+        res(collections)
       })
       .catch(err => {
-        rej();
-      });
+        rej()
+      })
   })
 }

@@ -16,7 +16,7 @@ export const generateEditOptionsIcons = options => {
     return {
       name: name,
       icon: icon,
-      value: options.map((name) => name).includes(name),
+      value: options.map(name => name).includes(name),
       label: label,
     }
   })

@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react'
-import PropTypes from 'prop-types'
-import { Helmet } from 'react-helmet'
-import CssBaseline from '@material-ui/core/CssBaseline'
+import React, { useEffect, useState } from "react"
+import PropTypes from "prop-types"
+import { Helmet } from "react-helmet"
+import CssBaseline from "@material-ui/core/CssBaseline"
 import {
   AppBar,
   Box,
@@ -10,23 +10,23 @@ import {
   fade,
   IconButton,
   Toolbar,
-} from '@material-ui/core'
-import { ThemeProvider } from '@material-ui/core/styles'
-import { makeStyles } from '@material-ui/core'
-import MenuIcon from '@material-ui/icons/Menu'
-import HomeIcon from '@material-ui/icons/Home'
-import SearchIcon from '@material-ui/icons/Search'
-import { Link } from 'gatsby'
-import InputBase from '@material-ui/core/InputBase'
-import { AccountCircle } from '@material-ui/icons'
-import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
-import Hidden from '@material-ui/core/Hidden';
-import Typography from '@material-ui/core/Typography'
+} from "@material-ui/core"
+import { ThemeProvider } from "@material-ui/core/styles"
+import { makeStyles } from "@material-ui/core"
+import MenuIcon from "@material-ui/icons/Menu"
+import HomeIcon from "@material-ui/icons/Home"
+import SearchIcon from "@material-ui/icons/Search"
+import { Link } from "gatsby"
+import InputBase from "@material-ui/core/InputBase"
+import { AccountCircle } from "@material-ui/icons"
+import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline"
+import Hidden from "@material-ui/core/Hidden"
+import Typography from "@material-ui/core/Typography"
 
-import MenuSide from './Menu/Side'
-import MenuProfile from './Menu/Profile'
-import theme from '@src/theme'
-import { Hoc } from '@hoc'
+import MenuSide from "./Menu/Side"
+import MenuProfile from "./Menu/Profile"
+import theme from "@src/theme"
+import { Hoc } from "@hoc"
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -42,43 +42,43 @@ const useStyles = makeStyles(theme => ({
     flexGrow: 1,
   },
   main: {
-    color: '#ffffff',
-    textDecoration: 'none',
+    color: "#ffffff",
+    textDecoration: "none",
   },
   search: {
-    position: 'relative',
+    position: "relative",
     borderRadius: theme.shape.borderRadius,
     backgroundColor: fade(theme.palette.common.white, 0.15),
-    '&:hover': {
+    "&:hover": {
       backgroundColor: fade(theme.palette.common.white, 0.25),
     },
     marginRight: theme.spacing(2),
     marginLeft: 0,
-    width: '100%',
-    [theme.breakpoints.up('sm')]: {
+    width: "100%",
+    [theme.breakpoints.up("sm")]: {
       marginLeft: theme.spacing(3),
-      width: 'auto',
+      width: "auto",
     },
   },
   searchIcon: {
     padding: theme.spacing(0, 2),
-    height: '100%',
-    position: 'absolute',
-    pointerEvents: 'none',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
+    height: "100%",
+    position: "absolute",
+    pointerEvents: "none",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
   },
   inputRoot: {
-    color: 'inherit',
+    color: "inherit",
   },
   inputInput: {
     padding: theme.spacing(1, 1, 1, 0),
     paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
-    transition: theme.transitions.create('width'),
-    width: '100%',
-    [theme.breakpoints.up('md')]: {
-      width: '20ch',
+    transition: theme.transitions.create("width"),
+    width: "100%",
+    [theme.breakpoints.up("md")]: {
+      width: "20ch",
     },
   },
 }))
@@ -87,18 +87,18 @@ export default function Main(props) {
   const classes = useStyles()
   const [openMenuSide, setOpenMenuSide] = useState(false)
   const [openMenuProfile, setOpenMenuProfile] = useState(false)
-  const [search, setSearch] = useState('')
+  const [search, setSearch] = useState("")
   const [anchorEl, setAnchorEl] = React.useState(null)
 
   const onSearch = e => {
     setSearch(e.target.value)
   }
 
-  const onCloseMenuProfile = (e) => {
+  const onCloseMenuProfile = e => {
     setOpenMenuProfile(false)
   }
 
-  const onOpenProfileSide = (e) => {
+  const onOpenProfileSide = e => {
     setAnchorEl(e.currentTarget)
     setOpenMenuProfile(true)
   }
@@ -138,7 +138,7 @@ export default function Main(props) {
                 <MenuIcon />
               </IconButton>
               <Box className={classes.title}>
-                <Link to={'/'} state={{ fromFeed: false }}>
+                <Link to={"/"} state={{ fromFeed: false }}>
                   <IconButton
                     edge="start"
                     className={classes.menuButton}
@@ -149,7 +149,7 @@ export default function Main(props) {
                   </IconButton>
                 </Link>
               </Box>
-              <Hidden only={['xs', 'sm']}>
+              <Hidden only={["xs", "sm"]}>
                 <div className={classes.search}>
                   <div className={classes.searchIcon}>
                     <SearchIcon />
@@ -160,7 +160,7 @@ export default function Main(props) {
                       root: classes.inputRoot,
                       input: classes.inputInput,
                     }}
-                    inputProps={{ 'aria-label': 'search' }}
+                    inputProps={{ "aria-label": "search" }}
                     value={search}
                     onChange={e => onSearch(e)}
                   />
@@ -172,12 +172,15 @@ export default function Main(props) {
                   className={classes.main}
                   state={{ fromFeed: false }}
                 >
-                  <Button color={'secondary'} variant={'contained'}>
-                    <Hidden only={['md', 'lg', 'xl']}>
+                  <Button color={"secondary"} variant={"contained"}>
+                    <Hidden only={["md", "lg", "xl"]}>
                       <SearchIcon />
                     </Hidden>
-                    <Hidden only={['xs', 'sm']}>
-                      <Typography style={{marginLeft: '5px'}} variant={"body2"}>
+                    <Hidden only={["xs", "sm"]}>
+                      <Typography
+                        style={{ marginLeft: "5px" }}
+                        variant={"body2"}
+                      >
                         Поиск
                       </Typography>
                     </Hidden>
@@ -185,14 +188,14 @@ export default function Main(props) {
                 </Link>
               </Box>
               <Link
-                to={'/place-edit/new'}
+                to={"/place-edit/new"}
                 className={classes.main}
                 state={{ fromFeed: false }}
               >
-                <Button color={'inherit'} variant={'outlined'}>
-                  <AddCircleOutlineIcon/>
-                  <Hidden only={['xs', 'sm', 'md']}>
-                    <Typography style={{marginLeft: '5px'}} variant={"body2"}>
+                <Button color={"inherit"} variant={"outlined"}>
+                  <AddCircleOutlineIcon />
+                  <Hidden only={["xs", "sm", "md"]}>
+                    <Typography style={{ marginLeft: "5px" }} variant={"body2"}>
                       Добавить жилье
                     </Typography>
                   </Hidden>
@@ -212,7 +215,11 @@ export default function Main(props) {
         </AppBar>
         <Container className={classes.container}>{props.children}</Container>
         <MenuSide open={openMenuSide} onClose={onCloseMenuSide} />
-        <MenuProfile anchorEl={anchorEl} open={openMenuProfile} onClose={onCloseMenuProfile} />
+        <MenuProfile
+          anchorEl={anchorEl}
+          open={openMenuProfile}
+          onClose={onCloseMenuProfile}
+        />
       </ThemeProvider>
     </Hoc>
   )

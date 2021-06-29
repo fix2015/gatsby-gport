@@ -1,17 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react"
 
-import Switch from "@material-ui/core/Switch";
-import FormGroup from "@material-ui/core/FormGroup";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Switch from "@material-ui/core/Switch"
+import FormGroup from "@material-ui/core/FormGroup"
+import FormControlLabel from "@material-ui/core/FormControlLabel"
 
-import { generateEditOptionsIcons } from "@services/options";
-import { optionsIcons } from "@src/Constants";
+import { generateEditOptionsIcons } from "@services/options"
+import { optionsIcons } from "@src/Constants"
 
 export default function ShortDescription({ options, onCallback }) {
-  const [optionSaved, setOptionSaved] = useState(options);
+  const [optionSaved, setOptionSaved] = useState(options)
   const [optionParams, setOptionParam] = useState(
     generateEditOptionsIcons(options)
-  );
+  )
 
   const handleChange = event => {
     if (!event.target.checked) {
@@ -23,14 +23,14 @@ export default function ShortDescription({ options, onCallback }) {
       const { name, label } = optionsIcons.filter(
         optionIcon => optionIcon.name === event.target.name
       )[0]
-      setOptionSaved(optionSaved.concat(name));
+      setOptionSaved(optionSaved.concat(name))
     }
   }
 
   useEffect(() => {
-    setOptionParam(generateEditOptionsIcons(optionSaved));
-    onCallback({ options: optionSaved });
-  }, [optionSaved]);
+    setOptionParam(generateEditOptionsIcons(optionSaved))
+    onCallback({ options: optionSaved })
+  }, [optionSaved])
 
   return (
     <FormGroup row>

@@ -15,10 +15,10 @@ export const TABS = [`description`, `map`, `reviews`]
 
 export const USER_MODEL = {
   email: null,
-  uid: null
+  uid: null,
 }
 
-export const LIMIT = 4;
+export const LIMIT = 8
 
 export const MODEL = {
   name: "",
@@ -134,9 +134,9 @@ export const SHORT_INFO = [
 ]
 
 export const GOOGLE_API = "AIzaSyDBlFmip6tAQanrEpIi3JAjakmu3QY5PEI"
-export const COLLECTION = 'places'
-export const REVIEWS = 'reviews'
-export const DOC = 'place'
+export const COLLECTION = "places"
+export const REVIEWS = "reviews"
+export const DOC = "place"
 
 export const DEFAULT_MAP_PROPS = {
   center: {
